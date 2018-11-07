@@ -1,0 +1,26 @@
+{
+  "include": [
+    "*.ts"
+  ],
+  "exclude": [],
+  "compilerOptions": {
+    "allowJs": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+    "outDir": ".",
+    "target": "es3",
+    "lib": [
+      "es5",
+      "es2015.promise"
+    ],
+    "declaration": true,
+    "sourceMap": true
+  }
+}
