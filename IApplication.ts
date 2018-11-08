@@ -38,4 +38,14 @@ export default interface IApplication<
    * ID.
    */
   view(state: TState, sessionId: ISessionId): IPrompt<TEvent>
+
+  /**
+   * Generates a string which is compared to determine whether a user's view
+   * needs to be refreshed.
+   * @param state The state from which to generate a prompt.
+   * @param sessionId The viewing session ID for which to generate a prompt.
+   * @returns A string which changes only when the user's view needs to be
+   * refreshed.
+   */
+  hash(state: TState, sessionId: ISessionId): string
 }
