@@ -1,5 +1,4 @@
 import IJsonObject from "./IJsonObject"
-import ISessionId from "./ISessionId"
 import IPrompt from "./IPrompt"
 
 /**
@@ -37,7 +36,7 @@ export default interface IApplication<
    * @returns A new prompt generated from the given state and viewing session
    * ID.
    */
-  view(state: TState, sessionId: ISessionId): IPrompt<TEvent>
+  view(state: TState, sessionId: string): IPrompt<TEvent>
 
   /**
    * Generates a string which is compared to determine whether a user's view
@@ -47,5 +46,5 @@ export default interface IApplication<
    * @returns A string which changes only when the user's view needs to be
    * refreshed.
    */
-  hash(state: TState, sessionId: ISessionId): string
+  hash(state: TState, sessionId: string): string
 }
