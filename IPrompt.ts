@@ -129,5 +129,5 @@ export default interface IPrompt<TEvent extends IJsonObject> {
    * null.
    * @returns The event to apply to the application state.
    */
-  readonly onBack: () => TEvent | null
+  readonly onBack: (() => TEvent) | null
 }
