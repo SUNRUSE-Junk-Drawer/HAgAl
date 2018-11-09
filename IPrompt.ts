@@ -1,6 +1,9 @@
 import IJsonObject from "./IJsonObject"
 
-/** Describes the types of controls which can be present on a prompt. */
+/**
+ * Describes the types of controls which can be present on a prompt.
+ * @template TEvent The JSON-serializable type of changes to application state.
+ */
 interface IControl<TEvent extends IJsonObject> {
   /**
    * A free-text user control is to be shown.
@@ -104,6 +107,7 @@ type SingleKeyValueOf<T> = T[keyof T]
 
 /**
  * Describes a prompt to be shown to a user.
+ * @template TEvent The JSON-serializable type of changes to application state.
  */
 export default interface IPrompt<TEvent extends IJsonObject> {
   /** A label for the prompt.  Should be short. */
