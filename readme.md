@@ -1,4 +1,6 @@
 # HAgAl
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl?ref=badge_shield)
+
 
 ```
   .............................................
@@ -59,3 +61,7 @@ architecture to produce simple, robust multi-user applications.
 - The *event* and *state* are given to the *persistence* plugin.
 - When the *event*/*state* has been persisted, *interaction* plugins are
   notified to refresh all shown *prompt*s.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl?ref=badge_large)
