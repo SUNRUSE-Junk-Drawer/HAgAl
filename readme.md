@@ -63,7 +63,7 @@ architecture to produce simple, robust multi-user applications.
              :             :
 ```
 
-- A *plugin* notifies HAgAl of an *event*, likely caused by .
+- A *plugin* notifies HAgAl of an *event*, likely caused by user input.
 - The *application* applies the *event* to the latest *state* to produce a new
   *state*.
 - The *event* and new *state* are passed through to each *plugin* in turn.  From
