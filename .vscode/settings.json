@@ -17,6 +17,7 @@
     "node_modules": true,
     "[^I]*.d.ts": true,
     "*.js": true,
-    "*.js.map": true
+    "*.js.map": true,
+    ".nyc_output": true
   }
 }
