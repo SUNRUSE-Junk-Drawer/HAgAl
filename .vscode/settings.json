@@ -15,7 +15,7 @@
     ".git": true,
     "**/.DS_Store": true,
     "node_modules": true,
-    "*.d.ts": true,
+    "[^I]*.d.ts": true,
     "*.js": true,
     "*.js.map": true
   }
