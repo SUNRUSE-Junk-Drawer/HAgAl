@@ -1,7 +1,7 @@
 {
   "name": "hagal",
   "description": "A fairly simple framework which combines event sourcing with a plugin architecture to produce simple, robust multi-user applications.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/jameswilddev/HAgAl"
