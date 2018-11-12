@@ -120,6 +120,30 @@ which are are single-*control* forms.
 - The *prompt* and *command* are compared to ensure that they match.
 - An *event* is generated from the combination of the *prompt* and *command*.
 
+## Usage
+
+The NPM package "hagal" is a collection of modules which can be taken and used
+individually, to assemble plugins or applications.  In this way, the internal
+file structure of the package is considered its API; changes to the file
+structure will be considered breaking and require a new major version.
+
+Additionally, many of the plugins included, while themselves small, require
+external dependencies to use.  These have been listed as NPM peer dependencies.
+
+### hagal/*.d.ts
+
+Any *.d.ts files without accompanying *.js files are Typescript type definitions
+without any associated runtime code.
+
+### hagal/FilePluginFactory
+
+This is a simple persistence plugin which reads/writes the latest state as a
+file, overwriting it every time it changes.
+
+#### Additional Dependencies
+
+- mkdirp
+
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl?ref=badge_large)
