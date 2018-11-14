@@ -17,9 +17,13 @@ interface IEvent extends IJsonObject {
   readonly eventContent: string
 }
 
-let factory: FilePluginFactory<IState, IEvent>
+interface ICustomApplication extends IApplication<IState, IEvent> { }
+
+let factory: FilePluginFactory<IState, IEvent, ICustomApplication>
 beforeEach(
-  () => factory = new FilePluginFactory<IState, IEvent>(`Test Filename`)
+  () => factory = new FilePluginFactory<IState, IEvent, ICustomApplication>(
+    `Test Filename`
+  )
 )
 
 describe(`imports`, () => {
@@ -32,7 +36,9 @@ describe(`imports`, () => {
 
 it(
   `has a name of "file"`,
-  () => expect(new FilePluginFactory<IState, IEvent>(`Test Filename`).name)
+  () => expect(new FilePluginFactory<IState, IEvent, ICustomApplication>(
+    `Test Filename`
+  ).name)
     .toEqual(`file`)
 )
 

@@ -13,11 +13,13 @@ import IPluginCreated from "./IPluginCreated"
  * Persists the latest state to a single file.
  * @template TState The JSON-serializable type of application state.
  * @template TEvent The JSON-serializable type of changes to application state.
+ * @template TApplication The application type interfaced with.
  */
 export default class FilePluginFactory<
   TState extends IJsonObject,
-  TEvent extends IJsonObject
-  > implements IPluginFactory<TState, TEvent> {
+  TEvent extends IJsonObject,
+  TApplication extends IApplication<TState, TEvent>
+  > implements IPluginFactory<TState, TEvent, TApplication> {
   private readonly filename: string
 
   /**
@@ -73,7 +75,7 @@ export default class FilePluginFactory<
    * @inheritdoc
    */
   async createInstance(
-    application: IApplication<TState, TEvent>,
+    application: TApplication,
     logger: ILogger,
     state: TState,
     pluginHandler: IPluginHandler<TState, TEvent>

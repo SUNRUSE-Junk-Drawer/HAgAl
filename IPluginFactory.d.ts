@@ -8,10 +8,12 @@ import IPluginCreated from "./IPluginCreated"
  * A factory for plugin instances.
  * @template TState The JSON-serializable type of application state.
  * @template TEvent The JSON-serializable type of changes to application state.
+ * @template TApplication The application type interfaced with.
  */
 export default interface IPluginFactory<
   TState extends IJsonObject,
-  TEvent extends IJsonObject
+  TEvent extends IJsonObject,
+  TApplication extends IApplication<TState, TEvent>
   > {
   /**
    * Describes the plugin for logging.
@@ -30,7 +32,7 @@ export default interface IPluginFactory<
    * @returns An instance of the plugin.
    */
   createInstance(
-    application: IApplication<TState, TEvent>,
+    application: TApplication,
     logger: ILogger,
     state: TState,
     pluginHandler: IPluginHandler<TState, TEvent>
