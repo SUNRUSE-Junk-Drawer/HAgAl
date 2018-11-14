@@ -135,6 +135,10 @@ external dependencies to use.  These have been listed as NPM peer dependencies.
 Any *.d.ts files without accompanying *.js files are Typescript type definitions
 without any associated runtime code.
 
+### hagal/ConsoleLogger
+
+A logging plugin which writes log messages to the JavaScript console.
+
 ### hagal/FilePluginFactory
 
 This is a simple persistence plugin which reads/writes the latest state as a
