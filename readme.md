@@ -148,6 +148,15 @@ file, overwriting it every time it changes.
 
 - mkdirp
 
+### hagal/HttpPluginFactory
+
+Exposes your application over HTTP, allowing users to connect with their web
+browser and view/respond to prompts.
+
+This is designed in such a way that it should work on any browser, even those
+without JavaScript; see [HttpPluginFactory.md](HttpPluginFactory.md) for details
+on its implementation.
+
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjameswilddev%2FHAgAl?ref=badge_large)
