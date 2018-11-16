@@ -29,6 +29,7 @@ This exists for two reasons:
 ```html
 <html>
   <head>
+    <title>Application Title</title>
     <!-- Custom head HTML -->
   </head>
   <body>
