@@ -3,9 +3,10 @@ import * as fs from "fs"
 import * as path from "path"
 const mkdirp = require(`mkdirp`)
 import IJsonObject from "./IJsonObject"
+import IActor from "./IActor"
 import FilePluginFactory from "./FilePluginFactory"
 import IApplication from "./IApplication"
-import ILogger from "./ILogger"
+import * as ILogEvent from "./ILogEvent"
 import IPluginHandler from "./IPluginHandler"
 import IPluginCreated from "./IPluginCreated"
 
@@ -51,11 +52,8 @@ describe(`createInstance`, () => {
   let applicationInitial: jasmine.Spy
   let applicationApply: jasmine.Spy
   let application: IApplication<IState, IEvent>
-  let loggerVerbose: jasmine.Spy
-  let loggerInformation: jasmine.Spy
-  let loggerWarning: jasmine.Spy
-  let loggerError: jasmine.Spy
-  let logger: ILogger
+  let loggerTell: jasmine.Spy
+  let logger: IActor<ILogEvent.default>
   let initialState: IState
   let pluginHandlerState: jasmine.Spy
   let pluginHandlerApply: jasmine.Spy
@@ -79,15 +77,9 @@ describe(`createInstance`, () => {
       initial: applicationInitial,
       apply: applicationApply
     }
-    loggerVerbose = jasmine.createSpy()
-    loggerInformation = jasmine.createSpy()
-    loggerWarning = jasmine.createSpy()
-    loggerError = jasmine.createSpy()
+    loggerTell = jasmine.createSpy()
     logger = {
-      verbose: loggerVerbose,
-      information: loggerInformation,
-      warning: loggerWarning,
-      error: loggerError
+      tell: loggerTell
     }
     initialState = { stateContent: `Test Initial State Content` }
     pluginHandlerState = jasmine.createSpy()
@@ -166,25 +158,15 @@ describe(`createInstance`, () => {
       () => expect(applicationApply).not.toHaveBeenCalled()
     )
     it(
-      `calls logger.verbose once`,
-      () => expect(loggerVerbose).toHaveBeenCalledTimes(1)
+      `logs once`,
+      () => expect(loggerTell).toHaveBeenCalledTimes(1)
     )
     it(
-      `calls logger.verbose once to indicate that state is being restored`,
-      () => expect(loggerVerbose)
-        .toHaveBeenCalledWith(`"Test Filename" exists; restoring state...`)
-    )
-    it(
-      `does not call logger.information`,
-      () => expect(loggerInformation).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call logger.warning`,
-      () => expect(loggerWarning).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call logger.error`,
-      () => expect(loggerError).not.toHaveBeenCalled()
+      `logs to indicate that state is being restored`,
+      () => expect(loggerTell).toHaveBeenCalledWith({
+        level: ILogEvent.Level.Verbose,
+        message: `"Test Filename" exists; restoring state...`
+      })
     )
     it(
       `does not call pluginHandler.state`,
@@ -273,26 +255,16 @@ describe(`createInstance`, () => {
         () => expect(applicationApply).not.toHaveBeenCalled()
       )
       it(
-        `calls logger.verbose once`,
-        () => expect(loggerVerbose).toHaveBeenCalledTimes(1)
+        `logs once`,
+        () => expect(loggerTell).toHaveBeenCalledTimes(1)
       )
       it(
-        `calls logger.verbose once to indicate that state is being restored`,
-        () => expect(loggerVerbose).toHaveBeenCalledWith(
-          `"Test Filename" does not exist; ensuring that directory "Test Filename Dirname" exists...`
-        )
-      )
-      it(
-        `does not call logger.information`,
-        () => expect(loggerInformation).not.toHaveBeenCalled()
-      )
-      it(
-        `does not call logger.warning`,
-        () => expect(loggerWarning).not.toHaveBeenCalled()
-      )
-      it(
-        `does not call logger.error`,
-        () => expect(loggerError).not.toHaveBeenCalled()
+        `logs to indicate that state is being restored`,
+        () => expect(loggerTell).toHaveBeenCalledWith({
+          level: ILogEvent.Level.Verbose,
+          message: `"Test Filename" does not exist; ensuring that directory `
+            + `"Test Filename Dirname" exists...`
+        })
       )
       it(
         `does not call pluginHandler.state`,
@@ -311,7 +283,7 @@ describe(`createInstance`, () => {
           fsReadFile.calls.reset()
           pathDirname.calls.reset()
           mkdirp.calls.reset()
-          loggerVerbose.calls.reset()
+          loggerTell.calls.reset()
         })
         describe(`stateChanged`, () => {
           let stateToWrite: IState
@@ -383,20 +355,8 @@ describe(`createInstance`, () => {
               () => expect(applicationApply).not.toHaveBeenCalled()
             )
             it(
-              `does not call logger.verbose`,
-              () => expect(loggerVerbose).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.information`,
-              () => expect(loggerInformation).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.warning`,
-              () => expect(loggerWarning).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.error`,
-              () => expect(loggerError).not.toHaveBeenCalled()
+              `does not log`,
+              () => expect(loggerTell).not.toHaveBeenCalled()
             )
             it(
               `does not call pluginHandler.state`,
@@ -495,20 +455,8 @@ describe(`createInstance`, () => {
               () => expect(applicationApply).not.toHaveBeenCalled()
             )
             it(
-              `does not call logger.verbose`,
-              () => expect(loggerVerbose).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.information`,
-              () => expect(loggerInformation).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.warning`,
-              () => expect(loggerWarning).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.error`,
-              () => expect(loggerError).not.toHaveBeenCalled()
+              `does not log`,
+              () => expect(loggerTell).not.toHaveBeenCalled()
             )
             it(
               `does not call pluginHandler.state`,
@@ -598,20 +546,8 @@ describe(`createInstance`, () => {
               () => expect(applicationApply).not.toHaveBeenCalled()
             )
             it(
-              `does not call logger.verbose`,
-              () => expect(loggerVerbose).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.information`,
-              () => expect(loggerInformation).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.warning`,
-              () => expect(loggerWarning).not.toHaveBeenCalled()
-            )
-            it(
-              `does not call logger.error`,
-              () => expect(loggerError).not.toHaveBeenCalled()
+              `does not log`,
+              () => expect(loggerTell).not.toHaveBeenCalled()
             )
             it(
               `does not call pluginHandler.state`,
@@ -660,20 +596,8 @@ describe(`createInstance`, () => {
             () => expect(applicationApply).not.toHaveBeenCalled()
           )
           it(
-            `does not call logger.verbose`,
-            () => expect(loggerVerbose).not.toHaveBeenCalled()
-          )
-          it(
-            `does not call logger.information`,
-            () => expect(loggerInformation).not.toHaveBeenCalled()
-          )
-          it(
-            `does not call logger.warning`,
-            () => expect(loggerWarning).not.toHaveBeenCalled()
-          )
-          it(
-            `does not call logger.error`,
-            () => expect(loggerError).not.toHaveBeenCalled()
+            `does not log`,
+            () => expect(loggerTell).not.toHaveBeenCalled()
           )
           it(
             `does not call pluginHandler.state`,
@@ -758,26 +682,16 @@ describe(`createInstance`, () => {
         () => expect(applicationApply).not.toHaveBeenCalled()
       )
       it(
-        `calls logger.verbose once`,
-        () => expect(loggerVerbose).toHaveBeenCalledTimes(1)
+        `logs once`,
+        () => expect(loggerTell).toHaveBeenCalledTimes(1)
       )
       it(
-        `calls logger.verbose once to indicate that state is being restored`,
-        () => expect(loggerVerbose).toHaveBeenCalledWith(
-          `"Test Filename" does not exist; ensuring that directory "Test Filename Dirname" exists...`
-        )
-      )
-      it(
-        `does not call logger.information`,
-        () => expect(loggerInformation).not.toHaveBeenCalled()
-      )
-      it(
-        `does not call logger.warning`,
-        () => expect(loggerWarning).not.toHaveBeenCalled()
-      )
-      it(
-        `does not call logger.error`,
-        () => expect(loggerError).not.toHaveBeenCalled()
+        `logs to indicate that state is being restored`,
+        () => expect(loggerTell).toHaveBeenCalledWith({
+          level: ILogEvent.Level.Verbose,
+          message: `"Test Filename" does not exist; ensuring that directory `
+            + `"Test Filename Dirname" exists...`
+        })
       )
       it(
         `does not call pluginHandler.state`,
@@ -858,24 +772,8 @@ describe(`createInstance`, () => {
       () => expect(applicationApply).not.toHaveBeenCalled()
     )
     it(
-      `calls logger.verbose once`,
-      () => expect(loggerVerbose).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call logger.verbose`,
-      () => expect(loggerVerbose).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call logger.information`,
-      () => expect(loggerInformation).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call logger.warning`,
-      () => expect(loggerWarning).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call logger.error`,
-      () => expect(loggerError).not.toHaveBeenCalled()
+      `does not log`,
+      () => expect(loggerTell).not.toHaveBeenCalled()
     )
     it(
       `does not call pluginHandler.state`,

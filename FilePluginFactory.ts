@@ -3,8 +3,9 @@ import * as path from "path"
 import * as util from "util"
 const mkdirp = require(`mkdirp`)
 import IJsonObject from "./IJsonObject"
+import IActor from "./IActor"
 import IApplication from "./IApplication"
-import ILogger from "./ILogger"
+import * as ILogEvent from "./ILogEvent"
 import IPluginFactory from "./IPluginFactory"
 import IPluginHandler from "./IPluginHandler"
 import IPluginCreated from "./IPluginCreated"
@@ -76,7 +77,7 @@ export default class FilePluginFactory<
    */
   async createInstance(
     application: TApplication,
-    logger: ILogger,
+    logger: IActor<ILogEvent.default>,
     state: TState,
     pluginHandler: IPluginHandler<TState, TEvent>
   ): Promise<IPluginCreated<TState, TEvent>> {
@@ -92,15 +93,19 @@ export default class FilePluginFactory<
         throw e
       } else {
         const directory = this.pathDirname(this.filename)
-        logger.verbose(
-          `"${this.filename}" does not exist; `
-          + `ensuring that directory "${directory}" exists...`
-        )
+        logger.tell({
+          level: ILogEvent.Level.Verbose,
+          message: `"${this.filename}" does not exist; `
+            + `ensuring that directory "${directory}" exists...`
+        })
         await mkdirp(directory)
       }
     }
     if (data) {
-      logger.verbose(`"${this.filename}" exists; restoring state...`)
+      logger.tell({
+        level: ILogEvent.Level.Verbose,
+        message: `"${this.filename}" exists; restoring state...`
+      })
       state = JSON.parse(data)
     }
     const tempFileName = `${this.filename}.tmp`

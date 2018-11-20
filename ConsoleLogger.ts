@@ -1,9 +1,10 @@
-import ILogger from "./ILogger"
+import IEventHandler from "./IEventHandler"
+import * as ILogEvent from "./ILogEvent"
 
 /**
  * Logs to the JavaScript console.
  */
-export default class ConsoleLogger implements ILogger {
+export default class ConsoleLogger implements IEventHandler<ILogEvent.default> {
   /**
    * Enables dependency injection in tests.
    */
@@ -26,28 +27,28 @@ export default class ConsoleLogger implements ILogger {
   /**
    * @inheritdoc
    */
-  verbose(message: string): void {
-    this.console.log(`Verbose@${new this.Date().toISOString()}: ${message}`)
-  }
-
-  /**
-   * @inheritdoc
-   */
-  information(message: string): void {
-    this.console.info(`Information@${new this.Date().toISOString()}: ${message}`)
-  }
-
-  /**
-   * @inheritdoc
-   */
-  warning(message: string): void {
-    this.console.warn(`Warning@${new this.Date().toISOString()}: ${message}`)
-  }
-
-  /**
-   * @inheritdoc
-   */
-  error(message: string): void {
-    this.console.error(`Error@${new this.Date().toISOString()}: ${message}`)
+  async handle(event: ILogEvent.default): Promise<void> {
+    switch (event.level) {
+      case ILogEvent.Level.Verbose:
+        this.console.log(
+          `Verbose@${new this.Date().toISOString()}: ${event.message}`
+        )
+        break
+      case ILogEvent.Level.Information:
+        this.console.info(
+          `Information@${new this.Date().toISOString()}: ${event.message}`
+        )
+        break
+      case ILogEvent.Level.Warning:
+        this.console.warn(
+          `Warning@${new this.Date().toISOString()}: ${event.message}`
+        )
+        break
+      case ILogEvent.Level.Error:
+        this.console.error(
+          `Error@${new this.Date().toISOString()}: ${event.message}`
+        )
+        break
+    }
   }
 }

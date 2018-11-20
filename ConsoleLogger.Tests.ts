@@ -1,4 +1,5 @@
 import "jasmine"
+import * as ILogEvent from "./ILogEvent"
 import ConsoleLogger from "./ConsoleLogger"
 
 let logger: ConsoleLogger
@@ -38,7 +39,10 @@ describe(`on calling`, () => {
     }
   })
   describe(`verbose`, () => {
-    beforeEach(() => logger.verbose(`Test Message`))
+    beforeEach(async () => await logger.handle({
+      level: ILogEvent.Level.Verbose,
+      message: `Test Message`
+    }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
     it(
       `calls console.log once`,
@@ -63,7 +67,10 @@ describe(`on calling`, () => {
     )
   })
   describe(`information`, () => {
-    beforeEach(() => logger.information(`Test Message`))
+    beforeEach(async () => await logger.handle({
+      level: ILogEvent.Level.Information,
+      message: `Test Message`
+    }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
     it(
       `does not call console.log`,
@@ -88,7 +95,10 @@ describe(`on calling`, () => {
     )
   })
   describe(`warning`, () => {
-    beforeEach(() => logger.warning(`Test Message`))
+    beforeEach(async () => await logger.handle({
+      level: ILogEvent.Level.Warning,
+      message: `Test Message`
+    }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
     it(
       `does not call console.log`,
@@ -113,7 +123,10 @@ describe(`on calling`, () => {
     )
   })
   describe(`error`, () => {
-    beforeEach(() => logger.error(`Test Message`))
+    beforeEach(async () => await logger.handle({
+      level: ILogEvent.Level.Error,
+      message: `Test Message`
+    }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
     it(
       `does not call console.log`,
