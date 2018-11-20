@@ -15,28 +15,6 @@ interface IReason extends IJsonObject {
   readonly reasonContent: string
 }
 
-let mailbox: IMailbox<IEvent>
-let mailboxPush: jasmine.Spy
-let mailboxShift: jasmine.Spy
-let eventHandler: IEventHandler<IEvent>
-let eventHandlerHandle: jasmine.Spy
-let errorHandler: jasmine.Spy
-let actor: Actor<IEvent>
-beforeEach(() => {
-  mailboxPush = jasmine.createSpy()
-  mailboxShift = jasmine.createSpy()
-  mailbox = {
-    push: mailboxPush,
-    shift: mailboxShift
-  }
-  eventHandlerHandle = jasmine.createSpy()
-  eventHandler = {
-    handle: eventHandlerHandle
-  }
-  errorHandler = jasmine.createSpy()
-  actor = new Actor<IEvent>(mailbox, eventHandler, errorHandler)
-})
-
 type Step = {
   readonly description: string
   readonly asynchronous: boolean
@@ -67,7 +45,16 @@ function GenerateStep(suffix: string, eventAvailableImmediately: boolean): Step[
 
 function RunSteps(steps: Step[]) {
   describe(steps.map(step => step.description).join(` -> `), () => {
-    beforeEach(async () => {
+    let mailbox: IMailbox<IEvent>
+    let mailboxPush: jasmine.Spy
+    let mailboxShift: jasmine.Spy
+    let eventHandler: IEventHandler<IEvent>
+    let eventHandlerHandle: jasmine.Spy
+    let errorHandler: jasmine.Spy
+    let actor: Actor<IEvent>
+    beforeAll(async () => {
+      mailboxPush = jasmine.createSpy()
+      mailboxShift = jasmine.createSpy()
       mailboxShift.and.callFake(() => {
         const stepId = mailboxShift.calls.count()
         if (stepId < steps.length) {
@@ -78,6 +65,11 @@ function RunSteps(steps: Step[]) {
         }
         return undefined
       })
+      mailbox = {
+        push: mailboxPush,
+        shift: mailboxShift
+      }
+      eventHandlerHandle = jasmine.createSpy()
       eventHandlerHandle.and.callFake(async () => {
         const stepId = eventHandlerHandle.calls.count() - 1
         if (stepId < steps.length) {
@@ -92,6 +84,11 @@ function RunSteps(steps: Step[]) {
           }
         }
       })
+      eventHandler = {
+        handle: eventHandlerHandle
+      }
+      errorHandler = jasmine.createSpy()
+      actor = new Actor<IEvent>(mailbox, eventHandler, errorHandler)
       for (const step of steps) {
         if (!step.eventAvailableImmediately) {
           actor.tell(step.event)
