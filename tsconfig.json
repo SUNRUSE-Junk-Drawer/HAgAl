@@ -1,8 +1,10 @@
 {
   "include": [
-    "*.ts"
+    "**/*.ts"
   ],
-  "exclude": [],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
     "allowJs": false,
     "allowUnreachableCode": false,

@@ -1,7 +1,8 @@
 {
   "spec_dir": ".",
   "spec_files": [
-    "*.Tests.js"
+    "**/*.Tests.js",
+    "!node_modules/**/*"
   ],
   "oneFailurePerSpec": true,
   "random": true

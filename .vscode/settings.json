@@ -15,9 +15,9 @@
     ".git": true,
     "**/.DS_Store": true,
     "node_modules": true,
-    "[^I]*.d.ts": true,
-    "*.js": true,
-    "*.js.map": true,
+    "**/[^I]*.d.ts": true,
+    "**/*.js": true,
+    "**/*.js.map": true,
     ".nyc_output": true
   }
 }

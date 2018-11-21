@@ -22,9 +22,9 @@
     "mkdirp": "^0.5.1"
   },
   "files": [
-    "*.js",
-    "*.d.ts",
-    "*.js.map"
+    "**/*.js",
+    "**/*.d.ts",
+    "**/**.js.map"
   ],
   "watch": {
     "oneOffJasmine": {
@@ -37,7 +37,7 @@
   "scripts": {
     "oneOff": "npm-run-all oneOffTypescript oneOffJasmine",
     "oneOffTypescript": "tsc --project .",
-    "oneOffJasmine": "nyc --check-coverage --all --exclude \"*.Tests.*\" --lines 100 --functions 100 --branches 100 --statements 100 jasmine --config=jasmine.json",
+    "oneOffJasmine": "nyc --check-coverage --all --exclude \"**/*.Tests.*\" --lines 100 --functions 100 --branches 100 --statements 100 jasmine --config=jasmine.json",
     "watch": "npm-run-all --parallel watchTypescript watchJasmine",
     "watchTypescript": "tsc --project . --watch",
     "watchJasmine": "npm-watch oneOffJasmine"
