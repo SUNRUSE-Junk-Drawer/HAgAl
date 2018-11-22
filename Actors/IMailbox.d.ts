@@ -1,4 +1,4 @@
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "../IJsonObject"
 
 /**
  * A FIFO queue of events to be processed by an actor.  Implemented by arrays.

@@ -1,4 +1,4 @@
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "../IJsonObject"
 import IActor from "./IActor"
 import IMailbox from "./IMailbox"
 import IEventHandler from "./IEventHandler"

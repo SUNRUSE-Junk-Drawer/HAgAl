@@ -3,7 +3,7 @@ import * as path from "path"
 import * as util from "util"
 const mkdirp = require(`mkdirp`)
 import IJsonObject from "./IJsonObject"
-import IActor from "./IActor"
+import IActor from "./Actors/IActor"
 import IApplication from "./IApplication"
 import * as ILogEvent from "./ILogEvent"
 import IPluginFactory from "./IPluginFactory"

@@ -1,5 +1,5 @@
 import IJsonObject from "./IJsonObject"
-import IActor from "./IActor"
+import IActor from "./Actors/IActor"
 import IApplication from "./IApplication"
 import ILogEvent from "./ILogEvent"
 import IPluginHandler from "./IPluginHandler"

@@ -1,4 +1,4 @@
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "../IJsonObject"
 
 /**
  * Defines how an actor handles an event.

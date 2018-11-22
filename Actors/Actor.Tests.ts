@@ -1,6 +1,6 @@
 import "jasmine"
 import * as util from "util"
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "../IJsonObject"
 import Actor from "./Actor"
 import IMailbox from "./IMailbox"
 import IEventHandler from "./IEventHandler"
