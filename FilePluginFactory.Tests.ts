@@ -6,7 +6,7 @@ import IJsonObject from "./IJsonObject"
 import IActor from "./Actors/IActor"
 import FilePluginFactory from "./FilePluginFactory"
 import IApplication from "./IApplication"
-import * as ILogEvent from "./ILogEvent"
+import * as ILogEvent from "./Logging/ILogEvent"
 import IPluginHandler from "./IPluginHandler"
 import IPluginCreated from "./IPluginCreated"
 

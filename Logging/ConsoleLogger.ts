@@ -1,4 +1,4 @@
-import IEventHandler from "./Actors/IEventHandler"
+import IEventHandler from "../Actors/IEventHandler"
 import * as ILogEvent from "./ILogEvent"
 
 /**

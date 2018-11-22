@@ -5,7 +5,7 @@ const mkdirp = require(`mkdirp`)
 import IJsonObject from "./IJsonObject"
 import IActor from "./Actors/IActor"
 import IApplication from "./IApplication"
-import * as ILogEvent from "./ILogEvent"
+import * as ILogEvent from "./Logging/ILogEvent"
 import IPluginFactory from "./IPluginFactory"
 import IPluginHandler from "./IPluginHandler"
 import IPluginCreated from "./IPluginCreated"
