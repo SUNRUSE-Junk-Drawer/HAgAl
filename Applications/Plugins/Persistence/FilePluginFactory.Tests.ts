@@ -2,13 +2,13 @@ import "jasmine"
 import * as fs from "fs"
 import * as path from "path"
 const mkdirp = require(`mkdirp`)
-import IJsonObject from "./IJsonObject"
-import IActor from "./Actors/IActor"
+import IJsonObject from "../../../IJsonObject"
+import IActor from "../../../Actors/IActor"
 import FilePluginFactory from "./FilePluginFactory"
-import IApplication from "./IApplication"
-import * as ILogEvent from "./Logging/ILogEvent"
-import IPluginHandler from "./IPluginHandler"
-import IPluginCreated from "./IPluginCreated"
+import IApplication from "../../IApplication"
+import * as ILogEvent from "../../../Logging/ILogEvent"
+import IPluginHandler from "../IPluginHandler"
+import IPluginCreated from "../IPluginCreated"
 
 interface IState extends IJsonObject {
   readonly stateContent: string

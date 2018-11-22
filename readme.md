@@ -154,8 +154,9 @@ Exposes your application over HTTP, allowing users to connect with their web
 browser and view/respond to prompts.
 
 This is designed in such a way that it should work on any browser, even those
-without JavaScript; see [HttpPluginFactory.md](HttpPluginFactory.md) for details
-on its implementation.
+without JavaScript; see
+[HttpPluginFactory.md](Applications/Plugins/InteractionHttpPluginFactory.md) for
+details on its implementation.
 
 ## License
 

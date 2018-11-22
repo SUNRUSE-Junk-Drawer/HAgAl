@@ -1,7 +1,7 @@
-import IJsonObject from "./IJsonObject"
-import IActor from "./Actors/IActor"
-import IApplication from "./IApplication"
-import ILogEvent from "./Logging/ILogEvent"
+import IJsonObject from "../../IJsonObject"
+import IActor from "../../Actors/IActor"
+import IApplication from "../IApplication"
+import ILogEvent from "../../Logging/ILogEvent"
 import IPluginHandler from "./IPluginHandler"
 import IPluginCreated from "./IPluginCreated"
 

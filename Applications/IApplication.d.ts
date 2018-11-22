@@ -1,4 +1,4 @@
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "../IJsonObject"
 
 /**
  * Implemented to provide application logic.

@@ -1,5 +1,5 @@
-import IJsonObject from "./IJsonObject"
-import IDisposable from "./IDisposable"
+import IJsonObject from "./../../IJsonObject"
+import IDisposable from "./../../IDisposable"
 
 /**
  * An instance of a plugin.

@@ -1,4 +1,4 @@
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "../../IJsonObject"
 
 /**
  * The interface between the core and a plugin.

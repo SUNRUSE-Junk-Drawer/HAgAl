@@ -1,4 +1,4 @@
-import IJsonObject from "./IJsonObject"
+import IJsonObject from "./../../IJsonObject"
 import IPluginInstance from "./IPluginInstance"
 
 /**

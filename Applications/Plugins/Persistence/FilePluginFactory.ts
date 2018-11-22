@@ -2,13 +2,13 @@ import * as fs from "fs"
 import * as path from "path"
 import * as util from "util"
 const mkdirp = require(`mkdirp`)
-import IJsonObject from "./IJsonObject"
-import IActor from "./Actors/IActor"
-import IApplication from "./IApplication"
-import * as ILogEvent from "./Logging/ILogEvent"
-import IPluginFactory from "./IPluginFactory"
-import IPluginHandler from "./IPluginHandler"
-import IPluginCreated from "./IPluginCreated"
+import IJsonObject from "../../../IJsonObject"
+import IActor from "../../../Actors/IActor"
+import IApplication from "../../IApplication"
+import * as ILogEvent from "../../../Logging/ILogEvent"
+import IPluginFactory from "../IPluginFactory"
+import IPluginHandler from "../IPluginHandler"
+import IPluginCreated from "../IPluginCreated"
 
 /**
  * Persists the latest state to a single file.
