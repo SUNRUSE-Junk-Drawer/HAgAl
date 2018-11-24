@@ -1,4 +1,6 @@
 import IJsonObject from "../../IJsonObject"
+import IActor from "../../Actors/IActor"
+import IReplaceState from "./IReplaceState"
 
 /**
  * The interface between the core and a plugin.
@@ -8,17 +10,12 @@ import IJsonObject from "../../IJsonObject"
 export default interface IPluginHandler<
   TState extends IJsonObject,
   TEvent extends IJsonObject
+  > extends IActor<
+  | IReplaceState<TState>
   > {
   /**
    * Gets the latest state.
    * @returns The latest state.
    */
-  state(): Promise<TState>
-
-  /**
-   * Applies an event to the latest state.
-   * @param event The event to apply.
-   * @returns When the event has been processed by all plugins.
-   */
-  apply(event: TEvent): Promise<void>
+  state(): TState
 }

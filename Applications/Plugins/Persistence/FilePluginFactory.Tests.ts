@@ -56,7 +56,7 @@ describe(`createInstance`, () => {
   let logger: IActor<ILogEvent.default>
   let initialState: IState
   let pluginHandlerState: jasmine.Spy
-  let pluginHandlerApply: jasmine.Spy
+  let pluginHandlerTell: jasmine.Spy
   let pluginHandler: IPluginHandler<IState, IEvent>
   let pluginCreated: IPluginCreated<IState, IEvent>
   beforeEach(() => {
@@ -83,10 +83,10 @@ describe(`createInstance`, () => {
     }
     initialState = { stateContent: `Test Initial State Content` }
     pluginHandlerState = jasmine.createSpy()
-    pluginHandlerApply = jasmine.createSpy()
+    pluginHandlerTell = jasmine.createSpy()
     pluginHandler = {
       state: pluginHandlerState,
-      apply: pluginHandlerApply
+      tell: pluginHandlerTell
     }
   })
 
@@ -173,8 +173,8 @@ describe(`createInstance`, () => {
       () => expect(pluginHandlerState).not.toHaveBeenCalled()
     )
     it(
-      `does not call pluginHandler.apply`,
-      () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+      `does not call pluginHandler.tell`,
+      () => expect(pluginHandlerTell).not.toHaveBeenCalled()
     )
     it(
       `returns the deserialized file as state`,
@@ -271,8 +271,8 @@ describe(`createInstance`, () => {
         () => expect(pluginHandlerState).not.toHaveBeenCalled()
       )
       it(
-        `does not call pluginHandler.apply`,
-        () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+        `does not call pluginHandler.tell`,
+        () => expect(pluginHandlerTell).not.toHaveBeenCalled()
       )
       it(
         `returns the deserialized file as state`,
@@ -363,8 +363,8 @@ describe(`createInstance`, () => {
               () => expect(pluginHandlerState).not.toHaveBeenCalled()
             )
             it(
-              `does not call pluginHandler.apply`,
-              () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+              `does not call pluginHandler.tell`,
+              () => expect(pluginHandlerTell).not.toHaveBeenCalled()
             )
             it(
               `returns the deserialized file as state`,
@@ -463,8 +463,8 @@ describe(`createInstance`, () => {
               () => expect(pluginHandlerState).not.toHaveBeenCalled()
             )
             it(
-              `does not call pluginHandler.apply`,
-              () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+              `does not call pluginHandler.tell`,
+              () => expect(pluginHandlerTell).not.toHaveBeenCalled()
             )
             it(
               `returns the deserialized file as state`,
@@ -554,8 +554,8 @@ describe(`createInstance`, () => {
               () => expect(pluginHandlerState).not.toHaveBeenCalled()
             )
             it(
-              `does not call pluginHandler.apply`,
-              () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+              `does not call pluginHandler.tell`,
+              () => expect(pluginHandlerTell).not.toHaveBeenCalled()
             )
             it(
               `returns the deserialized file as state`,
@@ -604,8 +604,8 @@ describe(`createInstance`, () => {
             () => expect(pluginHandlerState).not.toHaveBeenCalled()
           )
           it(
-            `does not call pluginHandler.apply`,
-            () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+            `does not call pluginHandler.tell`,
+            () => expect(pluginHandlerTell).not.toHaveBeenCalled()
           )
           it(
             `returns the deserialized file as state`,
@@ -698,8 +698,8 @@ describe(`createInstance`, () => {
         () => expect(pluginHandlerState).not.toHaveBeenCalled()
       )
       it(
-        `does not call pluginHandler.apply`,
-        () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+        `does not call pluginHandler.tell`,
+        () => expect(pluginHandlerTell).not.toHaveBeenCalled()
       )
       it(
         `throws the error raised by mkdirp`,
@@ -780,8 +780,8 @@ describe(`createInstance`, () => {
       () => expect(pluginHandlerState).not.toHaveBeenCalled()
     )
     it(
-      `does not call pluginHandler.apply`,
-      () => expect(pluginHandlerApply).not.toHaveBeenCalled()
+      `does not call pluginHandler.tell`,
+      () => expect(pluginHandlerTell).not.toHaveBeenCalled()
     )
     it(
       `throws the error raised by fs.readFile`,
