@@ -4,7 +4,8 @@
   ],
   "exclude": [
     "node_modules",
-    "Tools"
+    "Tools",
+    "Example"
   ],
   "compilerOptions": {
     "allowJs": false,

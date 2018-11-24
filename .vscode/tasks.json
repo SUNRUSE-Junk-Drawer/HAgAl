@@ -21,6 +21,13 @@
       "command": "npm run-script oneOff",
       "group": "build",
       "problemMatcher": []
+    },
+    {
+      "label": "Example",
+      "type": "shell",
+      "command": "npm run-script example",
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
