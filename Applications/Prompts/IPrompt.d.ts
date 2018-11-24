@@ -103,7 +103,25 @@ interface IControl<TEvent extends IJsonObject> {
 /**
  * Used internally to allow for exactly one control to be selected.
  */
-type SingleKeyValueOf<T> = T[keyof T]
+type SingleKeyValueOf<T> = {
+  readonly [type in keyof T]:
+  {
+    /** Indicates the type of control to show. */
+    readonly type: type,
+
+    /** The data which describes the control's parameters. */
+    readonly value: T[type]
+  }
+}[keyof {
+  readonly [type in keyof T]:
+  {
+    /** Indicates the type of control to show. */
+    readonly type: type,
+
+    /** The data which describes the control's parameters. */
+    readonly value: T[type]
+  }
+}]
 
 /**
  * Describes a prompt to be shown to a user.
@@ -117,16 +135,7 @@ export default interface IPrompt<TEvent extends IJsonObject> {
   readonly description: string
 
   /** The control to show to the user, if any, else, null. */
-  readonly control: SingleKeyValueOf<{
-    readonly [type in keyof IControl<TEvent>]:
-    {
-      /** Indicates the type of control to show. */
-      readonly type: type,
-
-      /** The data which describes the control's parameters. */
-      readonly value: IControl<TEvent>[type]
-    }
-  }> | null
+  readonly control: SingleKeyValueOf<IControl<TEvent>> | null
 
   /**
    * Called when the back button is pressed; no back button is to be shown when
