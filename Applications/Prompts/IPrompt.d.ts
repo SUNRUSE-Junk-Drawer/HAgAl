@@ -1,4 +1,5 @@
 import IJsonObject from "../../IJsonObject"
+import SingleKeyValueOf from "../../SingleKeyValueOf"
 
 /**
  * Describes the types of controls which can be present on a prompt.
@@ -99,29 +100,6 @@ interface IControl<TEvent extends IJsonObject> {
     }>
   }
 }
-
-/**
- * Used internally to allow for exactly one control to be selected.
- */
-type SingleKeyValueOf<T> = {
-  readonly [type in keyof T]:
-  {
-    /** Indicates the type of control to show. */
-    readonly type: type,
-
-    /** The data which describes the control's parameters. */
-    readonly value: T[type]
-  }
-}[keyof {
-  readonly [type in keyof T]:
-  {
-    /** Indicates the type of control to show. */
-    readonly type: type,
-
-    /** The data which describes the control's parameters. */
-    readonly value: T[type]
-  }
-}]
 
 /**
  * Describes a prompt to be shown to a user.
