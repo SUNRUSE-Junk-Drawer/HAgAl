@@ -1,5 +1,3 @@
-import IJsonObject from "../IJsonObject"
-
 /**
  * The importance/purpose of a log event.
  */
@@ -28,7 +26,7 @@ export const enum Level {
 /**
  * Specifies that a message should be logged.
  */
-export default interface ILogEvent extends IJsonObject {
+export default interface ILogEvent {
   /**
    * The importance/purpose of the message.
    */

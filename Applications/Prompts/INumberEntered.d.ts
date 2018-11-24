@@ -1,9 +1,7 @@
-import IJsonObject from "../../IJsonObject"
-
 /**
  * Instructs that a user has entered a number into a prompt.
  */
-export default interface INumberEntered extends IJsonObject {
+export default interface INumberEntered {
   /**
    * Indicates the event type.
    */

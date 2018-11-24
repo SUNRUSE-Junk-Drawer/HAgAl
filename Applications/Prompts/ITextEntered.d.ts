@@ -1,9 +1,7 @@
-import IJsonObject from "../../IJsonObject"
-
 /**
  * Instructs that a user has entered text into a prompt.
  */
-export default interface ITextEntered extends IJsonObject {
+export default interface ITextEntered {
   /**
    * Indicates the event type.
    */

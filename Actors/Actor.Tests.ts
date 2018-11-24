@@ -1,17 +1,16 @@
 import "jasmine"
 import * as util from "util"
-import IJsonObject from "../IJsonObject"
 import Actor from "./Actor"
 import IMailbox from "./IMailbox"
 import IEventHandler from "./IEventHandler"
 
 const nextTick = util.promisify(process.nextTick)
 
-interface IEvent extends IJsonObject {
+interface IEvent {
   readonly eventContent: string
 }
 
-interface IReason extends IJsonObject {
+interface IReason {
   readonly reasonContent: string
 }
 

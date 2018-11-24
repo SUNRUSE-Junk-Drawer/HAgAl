@@ -1,9 +1,7 @@
-import IJsonObject from "../../IJsonObject"
-
 /**
  * Instructs that a user has pressed the back button on their prompt.
  */
-export default interface IBackPressed extends IJsonObject {
+export default interface IBackPressed {
   /**
    * Indicates the event type.
    */

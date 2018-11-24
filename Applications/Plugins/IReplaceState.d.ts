@@ -6,7 +6,7 @@ import IJsonObject from "../../IJsonObject"
  */
 export default interface IReplaceState<
   TState extends IJsonObject
-  > extends IJsonObject {
+  > {
   /**
    * Indicates the event type.
    */

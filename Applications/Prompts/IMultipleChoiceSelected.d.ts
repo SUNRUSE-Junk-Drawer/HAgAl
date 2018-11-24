@@ -1,9 +1,7 @@
-import IJsonObject from "../../IJsonObject"
-
 /**
  * Instructs that a user has selected from a multiple-choice prompt.
  */
-export default interface IMultipleChoiceSelected extends IJsonObject {
+export default interface IMultipleChoiceSelected {
   /**
    * Indicates the event type.
    */

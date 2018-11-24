@@ -1,9 +1,7 @@
-import IJsonObject from "../../IJsonObject"
-
 /**
  * Instructs that a user has entered a password into a prompt.
  */
-export default interface IPasswordEntered extends IJsonObject {
+export default interface IPasswordEntered {
   /**
    * Indicates the event type.
    */

@@ -1,4 +1,3 @@
-import IJsonObject from "../IJsonObject"
 import IActor from "./IActor"
 import IMailbox from "./IMailbox"
 import IEventHandler from "./IEventHandler"
@@ -8,9 +7,7 @@ import IErrorHandler from "./IErrorHandler"
  * Processes one event at a time.
  * @template TEvent The JSON-serializable type of events.
  */
-export default class Actor<
-  TEvent extends IJsonObject
-  > implements IActor<TEvent> {
+export default class Actor<TEvent> implements IActor<TEvent> {
   private running = false
 
   /**
