@@ -1,5 +1,5 @@
 import IJsonObject from "../../IJsonObject"
-import SingleKeyValueOf from "../../SingleKeyValueOf"
+import { SingleKeyValueOf } from "../../ISingleKeyValueOf"
 
 /**
  * Describes the types of controls which can be present on a prompt.

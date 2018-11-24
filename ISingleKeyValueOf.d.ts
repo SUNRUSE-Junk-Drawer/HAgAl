@@ -1,7 +1,7 @@
 /**
  * Used internally to allow for exactly one key/value to be selected.
  */
-type SingleKeyValueOf<T> = {
+export type SingleKeyValueOf<T> = {
   readonly [key in keyof T]:
   {
     /** Indicates the type of value included. */
@@ -20,5 +20,3 @@ type SingleKeyValueOf<T> = {
     readonly value: T[key]
   }
 }]
-
-export default SingleKeyValueOf
