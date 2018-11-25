@@ -6,7 +6,7 @@ import IJsonObject from "../../../IJsonObject"
 import IActor from "../../../Actors/IActor"
 import FilePluginFactory from "./FilePluginFactory"
 import IApplication from "../../IApplication"
-import ILogEvent from "../../../Logging/ILogEvent"
+import ILogMessages from "../../../Logging/ILogMessages"
 import IPluginHandler from "../IPluginHandler"
 import IPluginCreated from "../IPluginCreated"
 
@@ -53,7 +53,7 @@ describe(`createInstance`, () => {
   let applicationApply: jasmine.Spy
   let application: IApplication<IState, IEvent>
   let loggerTell: jasmine.Spy
-  let logger: IActor<ILogEvent>
+  let logger: IActor<ILogMessages>
   let initialState: IState
   let pluginHandlerState: jasmine.Spy
   let pluginHandlerTell: jasmine.Spy

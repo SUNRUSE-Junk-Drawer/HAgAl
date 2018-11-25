@@ -1,13 +1,13 @@
 import { SingleKeyValueOf } from "../ISingleKeyValueOf"
 
 /**
- * Processes one event at a time.
- * @template TEvent The JSON-serializable type of changes to application state.
+ * Processes one message at a time.
+ * @template TMessages The handled message types.
  */
-export default interface IActor<TEvent> {
+export default interface IActor<TMessages> {
   /**
-   * Enqueues an event to process.
-   * @param event The event to process.
+   * Enqueues a message to process.
+   * @param message The message to process.
    */
-  tell(event: SingleKeyValueOf<TEvent>): void
+  tell(message: SingleKeyValueOf<TMessages>): void
 }

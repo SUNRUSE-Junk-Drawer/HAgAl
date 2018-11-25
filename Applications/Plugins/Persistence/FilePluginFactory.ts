@@ -5,7 +5,7 @@ const mkdirp = require(`mkdirp`)
 import IJsonObject from "../../../IJsonObject"
 import IActor from "../../../Actors/IActor"
 import IApplication from "../../IApplication"
-import ILogEvent from "../../../Logging/ILogEvent"
+import ILogMessages from "../../../Logging/ILogMessages"
 import IPluginFactory from "../IPluginFactory"
 import IPluginHandler from "../IPluginHandler"
 import IPluginCreated from "../IPluginCreated"
@@ -77,7 +77,7 @@ export default class FilePluginFactory<
    */
   async createInstance(
     application: TApplication,
-    logger: IActor<ILogEvent>,
+    logger: IActor<ILogMessages>,
     state: TState,
     pluginHandler: IPluginHandler<TState, TEvent>
   ): Promise<IPluginCreated<TState, TEvent>> {

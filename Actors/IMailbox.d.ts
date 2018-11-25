@@ -1,17 +1,17 @@
 /**
- * A FIFO queue of events to be processed by an actor.  Implemented by arrays.
- * @template TEvent The JSON-serializable type of events.
+ * A FIFO queue of messages to be processed by an actor.  Implemented by arrays.
+ * @template TMessages The handled message type.
  */
-export default interface IMailbox<TEvent> {
+export default interface IMailbox<TMessage> {
   /**
-   * Retrieves the next event from the queue, if any.
-   * @returns The next event, if any, else, undefined.
+   * Retrieves the next message from the queue, if any.
+   * @returns The next message, if any, else, undefined.
    */
-  shift(): undefined | TEvent
+  shift(): undefined | TMessage
 
   /**
-   * Adds an event to the queue.
-   * @param event The event to add to the queue.
+   * Adds an message to the queue.
+   * @param message The message to add to the queue.
    */
-  push(event: TEvent): void
+  push(message: TMessage): void
 }

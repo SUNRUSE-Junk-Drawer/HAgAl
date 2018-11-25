@@ -1,10 +1,10 @@
-import { MultiEventHandler } from "../Actors/IMultiEventHandler"
-import ILogEvent from "./ILogEvent"
+import { MultiMessageHandler } from "../Actors/IMultiMessageHandler"
+import ILogMessages from "./ILogMessages"
 
 /**
  * Logs to the JavaScript console.
  */
-export default class ConsoleLogger implements MultiEventHandler<ILogEvent> {
+export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> {
   /**
    * Enables dependency injection in tests.
    */
@@ -27,44 +27,44 @@ export default class ConsoleLogger implements MultiEventHandler<ILogEvent> {
   /**
    * @inheritdoc
    */
-  async verbose(event: {
+  async verbose(message: {
     readonly message: string
   }): Promise<void> {
     this.console.log(
-      `Verbose@${new this.Date().toISOString()}: ${event.message}`
+      `Verbose@${new this.Date().toISOString()}: ${message.message}`
     )
   }
 
   /**
    * @inheritdoc
    */
-  async information(event: {
+  async information(message: {
     readonly message: string
   }): Promise<void> {
     this.console.info(
-      `Information@${new this.Date().toISOString()}: ${event.message}`
+      `Information@${new this.Date().toISOString()}: ${message.message}`
     )
   }
 
   /**
    * @inheritdoc
    */
-  async warning(event: {
+  async warning(message: {
     readonly message: string
   }): Promise<void> {
     this.console.warn(
-      `Warning@${new this.Date().toISOString()}: ${event.message}`
+      `Warning@${new this.Date().toISOString()}: ${message.message}`
     )
   }
 
   /**
    * @inheritdoc
    */
-  async error(event: {
+  async error(message: {
     readonly message: string
   }): Promise<void> {
     this.console.error(
-      `Error@${new this.Date().toISOString()}: ${event.message}`
+      `Error@${new this.Date().toISOString()}: ${message.message}`
     )
   }
 }

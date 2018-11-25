@@ -1,36 +1,37 @@
 import { SingleKeyValueOf } from "../ISingleKeyValueOf"
 import IActor from "./IActor"
 import IMailbox from "./IMailbox"
-import { MultiEventHandler } from "./IMultiEventHandler"
+import { MultiMessageHandler } from "./IMultiMessageHandler"
 import IErrorHandler from "./IErrorHandler"
 
 /**
- * Processes one event at a time.
- * @template TEvents The JSON-serializable types of events.
+ * Processes one message at a time.
+ * @template TMessages The handled message types.
  */
-export default class Actor<TEvents> implements IActor<TEvents> {
+export default class Actor<TMessages> implements IActor<TMessages> {
   private running = false
 
   /**
    * @param mailbox The mailbox to use.
-   * @param multiEventHandler The handlers for events processed by the actor.
-   * @param errorHandler The handler for errors raised while processing events.
+   * @param multiMessageHandler The handlers for messages processed by the actor.
+   * @param errorHandler The handler for errors raised while processing
+   * messages.
    */
   constructor(
-    private readonly mailbox: IMailbox<SingleKeyValueOf<TEvents>>,
-    private readonly multiEventHandler: MultiEventHandler<TEvents>,
+    private readonly mailbox: IMailbox<SingleKeyValueOf<TMessages>>,
+    private readonly multiMessageHandler: MultiMessageHandler<TMessages>,
     private readonly errorHandler: IErrorHandler
   ) { }
 
   /**
    * @inheritdoc
    */
-  tell(event: SingleKeyValueOf<TEvents>): void {
+  tell(message: SingleKeyValueOf<TMessages>): void {
     if (this.running) {
-      this.mailbox.push(event)
+      this.mailbox.push(message)
     } else {
       this.running = true
-      this.multiEventHandler[event.key](event.value).then(
+      this.multiMessageHandler[message.key](message.value).then(
         () => this.done(),
         reason => {
           this.errorHandler(reason)
@@ -42,9 +43,9 @@ export default class Actor<TEvents> implements IActor<TEvents> {
 
   private done(): void {
     this.running = false
-    const nextEvent = this.mailbox.shift()
-    if (nextEvent) {
-      this.tell(nextEvent)
+    const nextMessage = this.mailbox.shift()
+    if (nextMessage) {
+      this.tell(nextMessage)
     }
   }
 }

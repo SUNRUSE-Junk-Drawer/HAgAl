@@ -1,7 +1,7 @@
 import IJsonObject from "../../IJsonObject"
 import IActor from "../../Actors/IActor"
 import IApplication from "../IApplication"
-import ILogEvent from "../../Logging/ILogEvent"
+import ILogMessages from "../../Logging/ILogMessages"
 import IPluginHandler from "./IPluginHandler"
 import IPluginCreated from "./IPluginCreated"
 
@@ -34,7 +34,7 @@ export default interface IPluginFactory<
    */
   createInstance(
     application: TApplication,
-    logger: IActor<ILogEvent>,
+    logger: IActor<ILogMessages>,
     state: TState,
     pluginHandler: IPluginHandler<TState, TEvent>
   ): Promise<IPluginCreated<TState, TEvent>>

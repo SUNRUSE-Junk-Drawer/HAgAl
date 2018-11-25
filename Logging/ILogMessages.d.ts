@@ -1,7 +1,7 @@
 /**
  * Specifies that a message should be logged.
  */
-export default interface ILogEvent {
+export default interface ILogMessages {
   /**
    * Deemed unimportant.  Likely safe to drop.
    */
