@@ -19,5 +19,6 @@
     "**/*.js": true,
     "**/*.js.map": true,
     ".nyc_output": true
-  }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
