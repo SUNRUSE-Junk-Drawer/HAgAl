@@ -1,29 +1,36 @@
 import "jasmine"
 import * as util from "util"
+import { SingleKeyValueOf } from "../ISingleKeyValueOf"
 import Actor from "./Actor"
 import IMailbox from "./IMailbox"
-import IEventHandler from "./IEventHandler"
+import { MultiEventHandler } from "./IMultiEventHandler"
 
 const nextTick = util.promisify(process.nextTick)
 
 interface IEvent {
-  readonly eventContent: string
+  readonly testKeyA: boolean
+  readonly testKeyB: string
+  readonly testKeyC: string
+  readonly testKeyD: string
+  readonly testKeyE: number
 }
 
 interface IReason {
   readonly reasonContent: string
 }
 
+type EventFactory = (content: string) => SingleKeyValueOf<IEvent>
+
 type Step = {
   readonly description: string
   readonly asynchronous: boolean
-  readonly event: IEvent
+  readonly event: SingleKeyValueOf<IEvent>
   readonly eventAvailableImmediately: boolean
   readonly reason: null | IReason
-  readonly eventsDuringCallback: IEvent[]
+  readonly eventsDuringCallback: SingleKeyValueOf<IEvent>[]
 }
 
-function GenerateStep(suffix: string, eventAvailableImmediately: boolean): Step[] {
+function GenerateStep(eventFactory: EventFactory, eventFactoriesDuringCallback: EventFactory[], suffix: string, eventAvailableImmediately: boolean): Step[] {
   const steps: Step[] = []
   for (const asynchronous of [false, true]) {
     for (const reason of [false, true]) {
@@ -31,10 +38,12 @@ function GenerateStep(suffix: string, eventAvailableImmediately: boolean): Step[
         steps.push({
           description: `${eventAvailableImmediately ? `continued by` : ``} ${reason ? `unsuccessful` : `successful`} ${asynchronous ? `asynchronous` : `synchronous`}ly handled event during which ${eventsDuringCallback} event(s) are raised`,
           asynchronous,
-          event: { eventContent: `Test Event Content ${suffix}` },
+          event: eventFactory(`Test Event Content ${suffix}`),
           eventAvailableImmediately,
           reason: reason ? { reasonContent: `Test Reason Content ${suffix}` } : null,
-          eventsDuringCallback: [0, 1, 2, 3].slice(eventsDuringCallback + 1).map(i => ({ eventContent: `Test Event During Callback Content ${suffix} ${i}` }))
+          eventsDuringCallback: eventFactoriesDuringCallback
+            .slice(0, eventsDuringCallback + 1)
+            .map((factory, i) => factory(`Test Event During Callback Content ${suffix} ${i}`))
         })
       }
     }
@@ -44,11 +53,15 @@ function GenerateStep(suffix: string, eventAvailableImmediately: boolean): Step[
 
 function RunSteps(steps: Step[]) {
   describe(steps.map(step => step.description).join(` -> `), () => {
-    let mailbox: IMailbox<IEvent>
+    let mailbox: IMailbox<SingleKeyValueOf<IEvent>>
     let mailboxPush: jasmine.Spy
     let mailboxShift: jasmine.Spy
-    let eventHandler: IEventHandler<IEvent>
-    let eventHandlerHandle: jasmine.Spy
+    let eventHandler: MultiEventHandler<IEvent>
+    let eventHandlerA: jasmine.Spy
+    let eventHandlerB: jasmine.Spy
+    let eventHandlerC: jasmine.Spy
+    let eventHandlerD: jasmine.Spy
+    let eventHandlerE: jasmine.Spy
     let errorHandler: jasmine.Spy
     let actor: Actor<IEvent>
     beforeAll(async () => {
@@ -68,9 +81,16 @@ function RunSteps(steps: Step[]) {
         push: mailboxPush,
         shift: mailboxShift
       }
-      eventHandlerHandle = jasmine.createSpy()
-      eventHandlerHandle.and.callFake(async () => {
-        const stepId = eventHandlerHandle.calls.count() - 1
+      eventHandlerA = jasmine.createSpy()
+      eventHandlerB = jasmine.createSpy()
+      eventHandlerB.and.callFake(EventHandlerCalled)
+      eventHandlerC = jasmine.createSpy()
+      eventHandlerC.and.callFake(EventHandlerCalled)
+      eventHandlerD = jasmine.createSpy()
+      eventHandlerD.and.callFake(EventHandlerCalled)
+      eventHandlerE = jasmine.createSpy()
+      async function EventHandlerCalled(e: string) {
+        const stepId = mailboxShift.calls.count()
         if (stepId < steps.length) {
           const step = steps[stepId]
           if (step.asynchronous) {
@@ -82,9 +102,13 @@ function RunSteps(steps: Step[]) {
             throw step.reason
           }
         }
-      })
+      }
       eventHandler = {
-        handle: eventHandlerHandle
+        testKeyA: eventHandlerA,
+        testKeyB: eventHandlerB,
+        testKeyC: eventHandlerC,
+        testKeyD: eventHandlerD,
+        testKeyE: eventHandlerE
       }
       errorHandler = jasmine.createSpy()
       actor = new Actor<IEvent>(mailbox, eventHandler, errorHandler)
@@ -120,12 +144,35 @@ function RunSteps(steps: Step[]) {
     )
     it(
       `handles the expected number of events`,
-      () => expect(eventHandlerHandle).toHaveBeenCalledTimes(steps.length)
+      () => {
+        expect(eventHandlerA).toHaveBeenCalledTimes(0)
+        expect(eventHandlerB).toHaveBeenCalledTimes(
+          steps.filter(step => step.event.key == `testKeyB`).length
+        )
+        expect(eventHandlerC).toHaveBeenCalledTimes(
+          steps.filter(step => step.event.key == `testKeyC`).length
+        )
+        expect(eventHandlerD).toHaveBeenCalledTimes(
+          steps.filter(step => step.event.key == `testKeyD`).length
+        )
+        expect(eventHandlerE).toHaveBeenCalledTimes(0)
+      }
     )
     it(
       `handles the expected events`,
-      () => steps.forEach(step => expect(eventHandlerHandle)
-        .toHaveBeenCalledWith(step.event))
+      () => steps.forEach(step => {
+        switch (step.event.key) {
+          case `testKeyB`:
+            expect(eventHandlerB).toHaveBeenCalledWith(step.event.value)
+            break
+          case `testKeyC`:
+            expect(eventHandlerC).toHaveBeenCalledWith(step.event.value)
+            break
+          case `testKeyD`:
+            expect(eventHandlerD).toHaveBeenCalledWith(step.event.value)
+            break
+        }
+      })
     )
     it(
       `handles the expected number of errors`,
@@ -135,20 +182,45 @@ function RunSteps(steps: Step[]) {
   })
 }
 
+function EventFactoryB(content: string): SingleKeyValueOf<IEvent> {
+  return {
+    key: `testKeyB`,
+    value: content
+  }
+}
+
+function EventFactoryC(content: string): SingleKeyValueOf<IEvent> {
+  return {
+    key: `testKeyC`,
+    value: content
+  }
+}
+
+function EventFactoryD(content: string): SingleKeyValueOf<IEvent> {
+  return {
+    key: `testKeyD`,
+    value: content
+  }
+}
+
 RunSteps([])
 
 describe(`tell`, () => {
-  GenerateStep(`A`, false).forEach(a => {
-    RunSteps([a])
-    GenerateStep(`B`, false).forEach(b => {
-      RunSteps([a, b])
-      GenerateStep(`C`, false).forEach(c => RunSteps([a, b, c]))
-      GenerateStep(`C`, true).forEach(c => RunSteps([a, b, c]))
+  GenerateStep(EventFactoryC, [EventFactoryB, EventFactoryD, EventFactoryC], `A`, false)
+    .forEach(a => {
+      RunSteps([a])
+      GenerateStep(EventFactoryD, [EventFactoryC, EventFactoryD, EventFactoryB], `B`, false)
+        .forEach(b => {
+          RunSteps([a, b])
+          GenerateStep(EventFactoryB, [EventFactoryD, EventFactoryB, EventFactoryC], `C`, false)
+            .forEach(c => RunSteps([a, b, c]))
+          GenerateStep(EventFactoryB, [EventFactoryD, EventFactoryB, EventFactoryC], `C`, true).forEach(c => RunSteps([a, b, c]))
+        })
+      GenerateStep(EventFactoryD, [EventFactoryC, EventFactoryD, EventFactoryB], `B`, true)
+        .forEach(b => {
+          RunSteps([a, b])
+          GenerateStep(EventFactoryB, [EventFactoryD, EventFactoryB, EventFactoryC], `C`, false).forEach(c => RunSteps([a, b, c]))
+          GenerateStep(EventFactoryB, [EventFactoryD, EventFactoryB, EventFactoryC], `C`, true).forEach(c => RunSteps([a, b, c]))
+        })
     })
-    GenerateStep(`B`, true).forEach(b => {
-      RunSteps([a, b])
-      GenerateStep(`C`, false).forEach(c => RunSteps([a, b, c]))
-      GenerateStep(`C`, true).forEach(c => RunSteps([a, b, c]))
-    })
-  })
 })

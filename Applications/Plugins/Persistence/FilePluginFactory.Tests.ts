@@ -6,7 +6,7 @@ import IJsonObject from "../../../IJsonObject"
 import IActor from "../../../Actors/IActor"
 import FilePluginFactory from "./FilePluginFactory"
 import IApplication from "../../IApplication"
-import * as ILogEvent from "../../../Logging/ILogEvent"
+import ILogEvent from "../../../Logging/ILogEvent"
 import IPluginHandler from "../IPluginHandler"
 import IPluginCreated from "../IPluginCreated"
 
@@ -53,7 +53,7 @@ describe(`createInstance`, () => {
   let applicationApply: jasmine.Spy
   let application: IApplication<IState, IEvent>
   let loggerTell: jasmine.Spy
-  let logger: IActor<ILogEvent.default>
+  let logger: IActor<ILogEvent>
   let initialState: IState
   let pluginHandlerState: jasmine.Spy
   let pluginHandlerTell: jasmine.Spy
@@ -164,8 +164,10 @@ describe(`createInstance`, () => {
     it(
       `logs to indicate that state is being restored`,
       () => expect(loggerTell).toHaveBeenCalledWith({
-        level: ILogEvent.Level.Verbose,
-        message: `"Test Filename" exists; restoring state...`
+        key: `verbose`,
+        value: {
+          message: `"Test Filename" exists; restoring state...`
+        }
       })
     )
     it(
@@ -261,9 +263,11 @@ describe(`createInstance`, () => {
       it(
         `logs to indicate that state is being restored`,
         () => expect(loggerTell).toHaveBeenCalledWith({
-          level: ILogEvent.Level.Verbose,
-          message: `"Test Filename" does not exist; ensuring that directory `
-            + `"Test Filename Dirname" exists...`
+          key: `verbose`,
+          value: {
+            message: `"Test Filename" does not exist; ensuring that directory `
+              + `"Test Filename Dirname" exists...`
+          }
         })
       )
       it(
@@ -688,9 +692,11 @@ describe(`createInstance`, () => {
       it(
         `logs to indicate that state is being restored`,
         () => expect(loggerTell).toHaveBeenCalledWith({
-          level: ILogEvent.Level.Verbose,
-          message: `"Test Filename" does not exist; ensuring that directory `
-            + `"Test Filename Dirname" exists...`
+          key: `verbose`,
+          value: {
+            message: `"Test Filename" does not exist; ensuring that directory `
+              + `"Test Filename Dirname" exists...`
+          }
         })
       )
       it(

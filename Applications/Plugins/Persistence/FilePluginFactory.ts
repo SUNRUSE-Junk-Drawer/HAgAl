@@ -5,7 +5,7 @@ const mkdirp = require(`mkdirp`)
 import IJsonObject from "../../../IJsonObject"
 import IActor from "../../../Actors/IActor"
 import IApplication from "../../IApplication"
-import * as ILogEvent from "../../../Logging/ILogEvent"
+import ILogEvent from "../../../Logging/ILogEvent"
 import IPluginFactory from "../IPluginFactory"
 import IPluginHandler from "../IPluginHandler"
 import IPluginCreated from "../IPluginCreated"
@@ -77,7 +77,7 @@ export default class FilePluginFactory<
    */
   async createInstance(
     application: TApplication,
-    logger: IActor<ILogEvent.default>,
+    logger: IActor<ILogEvent>,
     state: TState,
     pluginHandler: IPluginHandler<TState, TEvent>
   ): Promise<IPluginCreated<TState, TEvent>> {
@@ -94,17 +94,21 @@ export default class FilePluginFactory<
       } else {
         const directory = this.pathDirname(this.filename)
         logger.tell({
-          level: ILogEvent.Level.Verbose,
-          message: `"${this.filename}" does not exist; `
-            + `ensuring that directory "${directory}" exists...`
+          key: `verbose`,
+          value: {
+            message: `"${this.filename}" does not exist; `
+              + `ensuring that directory "${directory}" exists...`
+          }
         })
         await mkdirp(directory)
       }
     }
     if (data) {
       logger.tell({
-        level: ILogEvent.Level.Verbose,
-        message: `"${this.filename}" exists; restoring state...`
+        key: `verbose`,
+        value: {
+          message: `"${this.filename}" exists; restoring state...`
+        }
       })
       state = JSON.parse(data)
     }

@@ -8,5 +8,5 @@ export default interface IEventHandler<TEvent> {
    * @param event The event to handle.
    * @returns Rejections will be passed to IErrorHandler.
    */
-  handle(event: TEvent): Promise<void>
+  (event: TEvent): Promise<void>
 }

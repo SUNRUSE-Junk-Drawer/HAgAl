@@ -1,35 +1,36 @@
+import { SingleKeyValueOf } from "../ISingleKeyValueOf"
 import IActor from "./IActor"
 import IMailbox from "./IMailbox"
-import IEventHandler from "./IEventHandler"
+import { MultiEventHandler } from "./IMultiEventHandler"
 import IErrorHandler from "./IErrorHandler"
 
 /**
  * Processes one event at a time.
- * @template TEvent The JSON-serializable type of events.
+ * @template TEvents The JSON-serializable types of events.
  */
-export default class Actor<TEvent> implements IActor<TEvent> {
+export default class Actor<TEvents> implements IActor<TEvents> {
   private running = false
 
   /**
    * @param mailbox The mailbox to use.
-   * @param eventHandler The handler for events processed by the actor.
+   * @param multiEventHandler The handlers for events processed by the actor.
    * @param errorHandler The handler for errors raised while processing events.
    */
   constructor(
-    private readonly mailbox: IMailbox<TEvent>,
-    private readonly eventHandler: IEventHandler<TEvent>,
+    private readonly mailbox: IMailbox<SingleKeyValueOf<TEvents>>,
+    private readonly multiEventHandler: MultiEventHandler<TEvents>,
     private readonly errorHandler: IErrorHandler
   ) { }
 
   /**
    * @inheritdoc
    */
-  tell(event: TEvent): void {
+  tell(event: SingleKeyValueOf<TEvents>): void {
     if (this.running) {
       this.mailbox.push(event)
     } else {
       this.running = true
-      this.eventHandler.handle(event).then(
+      this.multiEventHandler[event.key](event.value).then(
         () => this.done(),
         reason => {
           this.errorHandler(reason)

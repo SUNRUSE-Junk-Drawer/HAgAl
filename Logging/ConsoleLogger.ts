@@ -1,10 +1,10 @@
-import IEventHandler from "../Actors/IEventHandler"
-import * as ILogEvent from "./ILogEvent"
+import { MultiEventHandler } from "../Actors/IMultiEventHandler"
+import ILogEvent from "./ILogEvent"
 
 /**
  * Logs to the JavaScript console.
  */
-export default class ConsoleLogger implements IEventHandler<ILogEvent.default> {
+export default class ConsoleLogger implements MultiEventHandler<ILogEvent> {
   /**
    * Enables dependency injection in tests.
    */
@@ -27,28 +27,44 @@ export default class ConsoleLogger implements IEventHandler<ILogEvent.default> {
   /**
    * @inheritdoc
    */
-  async handle(event: ILogEvent.default): Promise<void> {
-    switch (event.level) {
-      case ILogEvent.Level.Verbose:
-        this.console.log(
-          `Verbose@${new this.Date().toISOString()}: ${event.message}`
-        )
-        break
-      case ILogEvent.Level.Information:
-        this.console.info(
-          `Information@${new this.Date().toISOString()}: ${event.message}`
-        )
-        break
-      case ILogEvent.Level.Warning:
-        this.console.warn(
-          `Warning@${new this.Date().toISOString()}: ${event.message}`
-        )
-        break
-      case ILogEvent.Level.Error:
-        this.console.error(
-          `Error@${new this.Date().toISOString()}: ${event.message}`
-        )
-        break
-    }
+  async verbose(event: {
+    readonly message: string
+  }): Promise<void> {
+    this.console.log(
+      `Verbose@${new this.Date().toISOString()}: ${event.message}`
+    )
+  }
+
+  /**
+   * @inheritdoc
+   */
+  async information(event: {
+    readonly message: string
+  }): Promise<void> {
+    this.console.info(
+      `Information@${new this.Date().toISOString()}: ${event.message}`
+    )
+  }
+
+  /**
+   * @inheritdoc
+   */
+  async warning(event: {
+    readonly message: string
+  }): Promise<void> {
+    this.console.warn(
+      `Warning@${new this.Date().toISOString()}: ${event.message}`
+    )
+  }
+
+  /**
+   * @inheritdoc
+   */
+  async error(event: {
+    readonly message: string
+  }): Promise<void> {
+    this.console.error(
+      `Error@${new this.Date().toISOString()}: ${event.message}`
+    )
   }
 }

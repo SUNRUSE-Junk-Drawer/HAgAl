@@ -1,5 +1,4 @@
 import "jasmine"
-import * as ILogEvent from "./ILogEvent"
 import ConsoleLogger from "./ConsoleLogger"
 
 let logger: ConsoleLogger
@@ -39,8 +38,7 @@ describe(`on calling`, () => {
     }
   })
   describe(`verbose`, () => {
-    beforeEach(async () => await logger.handle({
-      level: ILogEvent.Level.Verbose,
+    beforeEach(async () => await logger.verbose({
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -67,8 +65,7 @@ describe(`on calling`, () => {
     )
   })
   describe(`information`, () => {
-    beforeEach(async () => await logger.handle({
-      level: ILogEvent.Level.Information,
+    beforeEach(async () => await logger.information({
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -95,8 +92,7 @@ describe(`on calling`, () => {
     )
   })
   describe(`warning`, () => {
-    beforeEach(async () => await logger.handle({
-      level: ILogEvent.Level.Warning,
+    beforeEach(async () => await logger.warning({
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -123,8 +119,7 @@ describe(`on calling`, () => {
     )
   })
   describe(`error`, () => {
-    beforeEach(async () => await logger.handle({
-      level: ILogEvent.Level.Error,
+    beforeEach(async () => await logger.error({
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
