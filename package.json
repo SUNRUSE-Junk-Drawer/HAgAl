@@ -1,6 +1,6 @@
 {
   "name": "hagal",
-  "description": "A fairly simple framework which combines event sourcing with a plugin architecture to produce simple, robust multi-user applications.",
+  "description": "Something of a kitchen sink of tools which can be used to build concurrent applications using TypeScript/Node.JS.",
   "version": "0.0.2",
   "repository": {
     "type": "git",
