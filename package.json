@@ -1,7 +1,7 @@
 {
   "name": "hagal",
   "description": "Something of a kitchen sink of tools which can be used to build concurrent applications using TypeScript/Node.JS.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/jameswilddev/HAgAl"
