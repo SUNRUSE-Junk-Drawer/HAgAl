@@ -11,7 +11,7 @@ Recurse(`.`)
 async function Recurse(searchPath: string): Promise<void> {
   const files = await fsReaddir(searchPath)
   for (const file of files) {
-    if (searchPath == `.` && [`node_modules`, `Tools`].indexOf(file) != -1) {
+    if (searchPath == `.` && [`node_modules`].indexOf(file) != -1) {
       console.log(`Ignoring directory "${file}".`)
       continue
     }

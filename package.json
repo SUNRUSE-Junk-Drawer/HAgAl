@@ -36,9 +36,9 @@
   },
   "scripts": {
     "oneOff": "npm-run-all oneOffClean oneOffTypescript oneOffJasmine",
-    "oneOffClean": "ts-node Tools/Clean",
+    "oneOffClean": "ts-node Clean",
     "oneOffTypescript": "tsc --project .",
-    "oneOffJasmine": "nyc --check-coverage --all --exclude \"**/*.Tests.*\" --exclude \"Tools/**/*\" --exclude \"Example/**/*\" --lines 100 --functions 100 --branches 100 --statements 100 jasmine --config=jasmine.json",
+    "oneOffJasmine": "nyc --check-coverage --all --exclude \"**/*.Tests.*\" --exclude \"Example/**/*\" --lines 100 --functions 100 --branches 100 --statements 100 jasmine --config=jasmine.json",
     "watch": "npm-run-all --parallel oneOffClean watchTypescript watchJasmine",
     "watchTypescript": "tsc --project . --watch",
     "watchJasmine": "npm-watch oneOffJasmine",
