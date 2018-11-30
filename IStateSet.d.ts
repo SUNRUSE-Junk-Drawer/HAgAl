@@ -2,7 +2,7 @@
  * A simple store of states which can be processed using given callbacks.
  * @template T The type of state stored.
  */
-export default interface IStateStore<T> {
+export default interface IStateSet<T> {
   /**
    * Adds a new state to the store.
    * @param state The state to add.

@@ -1,9 +1,9 @@
-import IStateStore from "./IStateStore"
+import IStateSet from "./IStateSet"
 
 /**
  * @inheritdoc
  */
-export default class StateStore<T> implements IStateStore<T> {
+export default class StateSet<T> implements IStateSet<T> {
   private readonly states: T[] = []
 
   /**

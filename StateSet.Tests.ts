@@ -1,5 +1,5 @@
 import "jasmine"
-import StateStore from "./StateStore"
+import StateSet from "./StateSet"
 
 enum State {
   EnsuresNotJustCheckingForTruthiness,
@@ -18,17 +18,17 @@ enum State {
   N
 }
 
-let stateStore: StateStore<State>
-beforeEach(() => stateStore = new StateStore<State>())
+let stateSet: StateSet<State>
+beforeEach(() => stateSet = new StateSet<State>())
 
 describe(`add`, () => {
   beforeEach(() => {
-    stateStore.add(State.ChangedAFrom)
-    stateStore.add(State.Unchanged)
-    stateStore.add(State.SwapA)
-    stateStore.add(State.Removed)
-    stateStore.add(State.SwapB)
-    stateStore.add(State.F)
+    stateSet.add(State.ChangedAFrom)
+    stateSet.add(State.Unchanged)
+    stateSet.add(State.SwapA)
+    stateSet.add(State.Removed)
+    stateSet.add(State.SwapB)
+    stateSet.add(State.F)
   })
   it(`does nothing`, () => { })
   describe(`process`, () => {
@@ -54,7 +54,7 @@ describe(`add`, () => {
             return null
         }
       })
-      stateStore.process(handler)
+      stateSet.process(handler)
     })
     it(
       `executes the handler once per added state`,
@@ -87,9 +87,9 @@ describe(`add`, () => {
     describe(`add`, () => {
       beforeEach(() => {
         handler.calls.reset()
-        stateStore.add(State.E)
-        stateStore.add(State.M)
-        stateStore.add(State.L)
+        stateSet.add(State.E)
+        stateSet.add(State.M)
+        stateSet.add(State.L)
       })
       it(
         `does not execute the original handler`,
@@ -100,7 +100,7 @@ describe(`add`, () => {
         beforeEach(() => {
           subsequentHandler = jasmine.createSpy()
           subsequentHandler.and.returnValue(null)
-          stateStore.process(subsequentHandler)
+          stateSet.process(subsequentHandler)
         })
         it(
           `does not execute the original handler`,
@@ -155,7 +155,7 @@ describe(`add`, () => {
         handler.calls.reset()
         subsequentHandler = jasmine.createSpy()
         subsequentHandler.and.returnValue(null)
-        stateStore.process(subsequentHandler)
+        stateSet.process(subsequentHandler)
       })
       it(
         `does not execute the original handler`,
