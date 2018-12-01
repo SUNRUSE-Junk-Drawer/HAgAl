@@ -1,7 +1,7 @@
 import IJsonObject from "../../IJsonObject"
 import { MultiMessageHandler } from "../../Actors/IMultiMessageHandler"
 import IApplication from "../IApplication"
-import IPluginMessage from "./IPluginMessage"
+import IPluginMessages from "./IPluginMessages"
 
 /**
  * Messages which can be sent to the core which hosts an application and its
@@ -10,7 +10,7 @@ import IPluginMessage from "./IPluginMessage"
  * @template TEvent The JSON-serializable type of changes to application state.
  * @template TApplication The application type hosted.
  */
-export default interface ICoreMessage<
+export default interface ICoreMessages<
   TState extends IJsonObject,
   TEvent extends IJsonObject,
   TApplication extends IApplication<TState, TEvent>
@@ -23,7 +23,7 @@ export default interface ICoreMessage<
      * The message handler of the plugin to install.
      */
     readonly plugin: MultiMessageHandler<
-      IPluginMessage<TState, TEvent, TApplication>
+      IPluginMessages<TState, TEvent, TApplication>
     >
   }
 }
