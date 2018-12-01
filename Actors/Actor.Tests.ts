@@ -53,7 +53,7 @@ function GenerateStep(messageFactory: MessageFactory, messageFactoriesDuringCall
 
 function RunSteps(steps: Step[]) {
   describe(steps.map(step => step.description).join(` -> `), () => {
-    let mailbox: IMailbox<SingleKeyValueOf<IMessage>>
+    let mailboxInstances = 0
     let mailboxPush: jasmine.Spy
     let mailboxShift: jasmine.Spy
     let messageHandler: MultiMessageHandler<IMessage>
@@ -77,9 +77,13 @@ function RunSteps(steps: Step[]) {
         }
         return undefined
       })
-      mailbox = {
-        push: mailboxPush,
-        shift: mailboxShift
+      class Mailbox implements IMailbox<SingleKeyValueOf<IMessage>> {
+        constructor() {
+          mailboxInstances++
+        }
+
+        readonly push = mailboxPush
+        readonly shift = mailboxShift
       }
       messageHandlerA = jasmine.createSpy()
       messageHandlerB = jasmine.createSpy()
@@ -111,7 +115,7 @@ function RunSteps(steps: Step[]) {
         testKeyE: messageHandlerE
       }
       errorHandler = jasmine.createSpy()
-      actor = new Actor<IMessage>(mailbox, messageHandler, errorHandler)
+      actor = new Actor<IMessage>(Mailbox, messageHandler, errorHandler)
       for (const step of steps) {
         if (!step.messageAvailableImmediately) {
           actor.tell(step.message)
@@ -124,6 +128,7 @@ function RunSteps(steps: Step[]) {
         }
       }
     })
+    it(`creates exactly one mailbox`, () => expect(mailboxInstances).toEqual(1))
     it(
       `pushes the expected number of messages to the mailbox`,
       () => expect(mailboxPush).toHaveBeenCalledTimes(

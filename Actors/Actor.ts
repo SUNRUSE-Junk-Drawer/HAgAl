@@ -10,18 +10,21 @@ import IErrorHandler from "./IErrorHandler"
  */
 export default class Actor<TMessages> implements IActor<TMessages> {
   private running = false
+  private readonly mailbox: IMailbox<SingleKeyValueOf<TMessages>>
 
   /**
-   * @param mailbox The mailbox to use.
+   * @param mailbox The constructor for the mailbox to use.
    * @param multiMessageHandler The handlers for messages processed by the actor.
    * @param errorHandler The handler for errors raised while processing
    * messages.
    */
   constructor(
-    private readonly mailbox: IMailbox<SingleKeyValueOf<TMessages>>,
+    mailbox: { new(): IMailbox<SingleKeyValueOf<TMessages>> },
     private readonly multiMessageHandler: MultiMessageHandler<TMessages>,
     private readonly errorHandler: IErrorHandler
-  ) { }
+  ) {
+    this.mailbox = new mailbox()
+  }
 
   /**
    * @inheritdoc
