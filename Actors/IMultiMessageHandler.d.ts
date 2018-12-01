@@ -8,5 +8,5 @@ export type MultiMessageHandler<TMessages> = {
   /**
    * A handler for a message type.
    */
-  readonly [key in keyof TMessages]: IMessageHandler<TMessages[key]>
+  readonly [key in keyof TMessages]: IMessageHandler<TMessages, TMessages[key]>
 }

@@ -31,7 +31,10 @@ export default class Actor<TMessages> implements IActor<TMessages> {
       this.mailbox.push(message)
     } else {
       this.running = true
-      this.multiMessageHandler[message.key](message.value).then(
+      this.multiMessageHandler[message.key](
+        this,
+        message.value
+      ).then(
         () => this.done(),
         reason => {
           this.errorHandler(reason)

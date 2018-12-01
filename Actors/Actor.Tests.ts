@@ -163,16 +163,34 @@ function RunSteps(steps: Step[]) {
       () => steps.forEach(step => {
         switch (step.message.key) {
           case `testKeyB`:
-            expect(messageHandlerB).toHaveBeenCalledWith(step.message.value)
+            expect(messageHandlerB).toHaveBeenCalledWith(
+              jasmine.anything(),
+              step.message.value
+            )
             break
           case `testKeyC`:
-            expect(messageHandlerC).toHaveBeenCalledWith(step.message.value)
+            expect(messageHandlerC).toHaveBeenCalledWith(
+              jasmine.anything(),
+              step.message.value
+            )
             break
           case `testKeyD`:
-            expect(messageHandlerD).toHaveBeenCalledWith(step.message.value)
+            expect(messageHandlerD).toHaveBeenCalledWith(
+              jasmine.anything(),
+              step.message.value
+            )
             break
         }
       })
+    )
+    it(
+      `provides a reference to itself when handling messages`,
+      () => [messageHandlerB, messageHandlerC, messageHandlerD]
+        .forEach(messageHandler => messageHandler
+          .calls
+          .allArgs()
+          .forEach(call => expect(call[0]).toBe(actor))
+        )
     )
     it(
       `handles the expected number of errors`,

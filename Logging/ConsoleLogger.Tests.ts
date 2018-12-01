@@ -1,4 +1,6 @@
 import "jasmine"
+import IActor from "../Actors/IActor"
+import ILogMessages from "./ILogMessages"
 import ConsoleLogger from "./ConsoleLogger"
 
 let logger: ConsoleLogger
@@ -15,6 +17,8 @@ describe(`on calling`, () => {
   let consoleInfo: jasmine.Spy
   let consoleWarn: jasmine.Spy
   let consoleError: jasmine.Spy
+  let receivedBy: IActor<ILogMessages>
+  let receivedByTell: jasmine.Spy
   beforeEach(() => {
     createdDates = 0
     logger.Date = class MockData {
@@ -36,9 +40,13 @@ describe(`on calling`, () => {
       warn: consoleWarn,
       error: consoleError
     }
+    receivedByTell = jasmine.createSpy()
+    receivedBy = {
+      tell: receivedByTell
+    }
   })
   describe(`verbose`, () => {
-    beforeEach(async () => await logger.verbose({
+    beforeEach(async () => await logger.verbose(receivedBy, {
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -63,9 +71,13 @@ describe(`on calling`, () => {
       `does not call console.error`,
       () => expect(consoleError).not.toHaveBeenCalled()
     )
+    it(
+      `does not tell itself`,
+      () => expect(receivedByTell).not.toHaveBeenCalled()
+    )
   })
   describe(`information`, () => {
-    beforeEach(async () => await logger.information({
+    beforeEach(async () => await logger.information(receivedBy, {
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -90,9 +102,13 @@ describe(`on calling`, () => {
       `does not call console.error`,
       () => expect(consoleError).not.toHaveBeenCalled()
     )
+    it(
+      `does not tell itself`,
+      () => expect(receivedByTell).not.toHaveBeenCalled()
+    )
   })
   describe(`warning`, () => {
-    beforeEach(async () => await logger.warning({
+    beforeEach(async () => await logger.warning(receivedBy, {
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -117,9 +133,13 @@ describe(`on calling`, () => {
       `does not call console.error`,
       () => expect(consoleError).not.toHaveBeenCalled()
     )
+    it(
+      `does not tell itself`,
+      () => expect(receivedByTell).not.toHaveBeenCalled()
+    )
   })
   describe(`error`, () => {
-    beforeEach(async () => await logger.error({
+    beforeEach(async () => await logger.error(receivedBy, {
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -143,6 +163,10 @@ describe(`on calling`, () => {
       `calls console.error with the built message`,
       () => expect(consoleError)
         .toHaveBeenCalledWith(`Error@Test Iso String: Test Message`)
+    )
+    it(
+      `does not tell itself`,
+      () => expect(receivedByTell).not.toHaveBeenCalled()
     )
   })
 })

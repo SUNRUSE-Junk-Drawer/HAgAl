@@ -1,4 +1,5 @@
 import { MultiMessageHandler } from "../Actors/IMultiMessageHandler"
+import IActor from "../Actors/IActor"
 import ILogMessages from "./ILogMessages"
 
 /**
@@ -27,9 +28,11 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   /**
    * @inheritdoc
    */
-  async verbose(message: {
-    readonly message: string
-  }): Promise<void> {
+  async verbose(
+    receivedBy: IActor<ILogMessages>,
+    message: {
+      readonly message: string
+    }): Promise<void> {
     this.console.log(
       `Verbose@${new this.Date().toISOString()}: ${message.message}`
     )
@@ -38,9 +41,11 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   /**
    * @inheritdoc
    */
-  async information(message: {
-    readonly message: string
-  }): Promise<void> {
+  async information(
+    receivedBy: IActor<ILogMessages>,
+    message: {
+      readonly message: string
+    }): Promise<void> {
     this.console.info(
       `Information@${new this.Date().toISOString()}: ${message.message}`
     )
@@ -49,9 +54,11 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   /**
    * @inheritdoc
    */
-  async warning(message: {
-    readonly message: string
-  }): Promise<void> {
+  async warning(
+    receivedBy: IActor<ILogMessages>,
+    message: {
+      readonly message: string
+    }): Promise<void> {
     this.console.warn(
       `Warning@${new this.Date().toISOString()}: ${message.message}`
     )
@@ -60,9 +67,11 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   /**
    * @inheritdoc
    */
-  async error(message: {
-    readonly message: string
-  }): Promise<void> {
+  async error(
+    receivedBy: IActor<ILogMessages>,
+    message: {
+      readonly message: string
+    }): Promise<void> {
     this.console.error(
       `Error@${new this.Date().toISOString()}: ${message.message}`
     )
