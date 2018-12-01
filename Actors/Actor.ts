@@ -10,7 +10,7 @@ import IErrorHandler from "./IErrorHandler"
  */
 export default class Actor<TMessages> implements IActor<TMessages> {
   private running = false
-  private readonly mailbox: IMailbox<SingleKeyValueOf<TMessages>>
+  private readonly mailbox: IMailbox<TMessages>
 
   /**
    * @param mailbox The constructor for the mailbox to use.
@@ -19,7 +19,7 @@ export default class Actor<TMessages> implements IActor<TMessages> {
    * messages.
    */
   constructor(
-    mailbox: { new(): IMailbox<SingleKeyValueOf<TMessages>> },
+    mailbox: { new(): IMailbox<TMessages> },
     private readonly multiMessageHandler: MultiMessageHandler<TMessages>,
     private readonly errorHandler: IErrorHandler
   ) {

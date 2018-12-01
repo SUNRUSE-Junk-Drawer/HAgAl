@@ -77,7 +77,7 @@ function RunSteps(steps: Step[]) {
         }
         return undefined
       })
-      class Mailbox implements IMailbox<SingleKeyValueOf<IMessage>> {
+      class Mailbox implements IMailbox<IMessage> {
         constructor() {
           mailboxInstances++
         }
