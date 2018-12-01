@@ -13,17 +13,17 @@ export default class Actor<TMessages> implements IActor<TMessages> {
   private readonly mailbox: IMailbox<TMessages>
 
   /**
-   * @param mailbox The constructor for the mailbox to use.
+   * @param Mailbox The constructor for the mailbox to use.
    * @param multiMessageHandler The handlers for messages processed by the actor.
    * @param errorHandler The handler for errors raised while processing
    * messages.
    */
   constructor(
-    mailbox: { new(): IMailbox<TMessages> },
+    Mailbox: { new(): IMailbox<TMessages> },
     private readonly multiMessageHandler: MultiMessageHandler<TMessages>,
     private readonly errorHandler: IErrorHandler
   ) {
-    this.mailbox = new mailbox()
+    this.mailbox = new Mailbox()
   }
 
   /**
