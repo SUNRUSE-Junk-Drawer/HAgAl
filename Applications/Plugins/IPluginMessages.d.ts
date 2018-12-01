@@ -36,4 +36,14 @@ export default interface IPluginMessages<
      */
     readonly state: IStateContainer<TState>
   }
+
+  /**
+   * A notification that the application state has changed.
+   */
+  readonly stateChanged: {
+    /**
+     * The event which changed the application state, if any.
+     */
+    readonly event: null | TEvent
+  }
 }

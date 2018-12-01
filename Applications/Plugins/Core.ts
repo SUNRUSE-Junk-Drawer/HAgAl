@@ -77,4 +77,22 @@ export default class Core<
       }
     })
   }
+
+  /**
+   * @inheritdoc
+   */
+  async replaceState(
+    receivedBy: IActor<ICoreMessages<TState, TEvent, TApplication>>,
+    message: {
+      readonly state: TState
+    }
+  ): Promise<void> {
+    this.state.set(message.state)
+    this.plugins.forEach(plugin => plugin.tell({
+      key: `stateChanged`,
+      value: {
+        event: null
+      }
+    }))
+  }
 }

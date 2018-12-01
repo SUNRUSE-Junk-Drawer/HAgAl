@@ -165,6 +165,7 @@ describe(`install`, () => {
   let receivedByTell: jasmine.Spy
   let receivedBy: IActor<ICoreMessages<IState, IEvent, IDerivedApplication>>
   let pluginInstalled: jasmine.Spy
+  let pluginStateChanged: jasmine.Spy
   let plugin: MultiMessageHandler<IPluginMessages<IState, IEvent, IDerivedApplication>>
   beforeEach(() => {
     receivedByTell = jasmine.createSpy()
@@ -173,8 +174,10 @@ describe(`install`, () => {
     }
 
     pluginInstalled = jasmine.createSpy()
+    pluginStateChanged = jasmine.createSpy()
     plugin = {
-      installed: pluginInstalled
+      installed: pluginInstalled,
+      stateChanged: pluginStateChanged
     }
 
     core.install(receivedBy, {
@@ -252,4 +255,139 @@ describe(`install`, () => {
     `does not directly invoke the plugin's "installed" message handler`,
     () => expect(pluginInstalled).not.toHaveBeenCalled()
   )
+  it(
+    `does not directly invoke the plugin's "stateChanged" message handler`,
+    () => expect(pluginStateChanged).not.toHaveBeenCalled()
+  )
+})
+
+describe(`replaceState`, () => {
+  let receivedByTell: jasmine.Spy
+  let receivedBy: IActor<ICoreMessages<IState, IEvent, IDerivedApplication>>
+  beforeEach(() => {
+    receivedByTell = jasmine.createSpy()
+    receivedBy = {
+      tell: receivedByTell
+    }
+
+    core.replaceState(receivedBy, {
+      state: {
+        stateContent: `Test Replacing State Content`
+      }
+    })
+  })
+
+  it(
+    `does not create further stateless sets of plugins`,
+    () => expect(pluginsInstances).toEqual(1)
+  )
+  it(
+    `does not push to the stateless set of plugins`,
+    () => expect(pluginsPush).not.toHaveBeenCalled()
+  )
+  it(
+    `iterates over the stateless set of plugins once`,
+    () => expect(pluginsForEach).toHaveBeenCalledTimes(1)
+  )
+  it(
+    `does not create further state containers`,
+    () => expect(stateInstances).toEqual(1)
+  )
+  it(`does not get the state`, () => expect(stateGet).not.toHaveBeenCalled())
+  it(`sets the state once`, () => expect(stateSet).toHaveBeenCalledTimes(1))
+  it(
+    `sets the state to the replacing state`,
+    () => expect(stateSet).toHaveBeenCalledWith({
+      stateContent: `Test Replacing State Content`
+    })
+  )
+  it(
+    `set the state before iterating over the plugins`,
+    () => expect(stateSet).toHaveBeenCalledBefore(pluginsForEach)
+  )
+  it(`does not create any actors`, () => expect(actorInstances).toEqual(0))
+  it(
+    `does not handle any errors`,
+    () => expect(errorHandler).not.toHaveBeenCalled()
+  )
+  it(
+    `does not get the initial state of the application again`,
+    () => expect(applicationInitial).toHaveBeenCalledTimes(1)
+  )
+  it(
+    `does not apply any events`,
+    () => expect(applicationApply).not.toHaveBeenCalled()
+  )
+  it(
+    `does not tell itself`,
+    () => expect(receivedByTell).not.toHaveBeenCalled()
+  )
+
+  describe(`the callback given to the stateless set of plugins`, () => {
+    let pluginTell: jasmine.Spy
+    beforeEach(() => {
+      receivedByTell = jasmine.createSpy()
+      receivedBy = {
+        tell: receivedByTell
+      }
+
+      pluginTell = jasmine.createSpy()
+
+      pluginsForEach.calls.argsFor(0)[0]({
+        tell: pluginTell
+      })
+    })
+
+    it(
+      `does not create further stateless sets of plugins`,
+      () => expect(pluginsInstances).toEqual(1)
+    )
+    it(
+      `does not push to the stateless set of plugins`,
+      () => expect(pluginsPush).not.toHaveBeenCalled()
+    )
+    it(
+      `does not iterate over the stateless set of plugins again`,
+      () => expect(pluginsForEach).toHaveBeenCalledTimes(1)
+    )
+    it(
+      `does not create further state containers`,
+      () => expect(stateInstances).toEqual(1)
+    )
+    it(`does not get the state`, () => expect(stateGet).not.toHaveBeenCalled())
+    it(
+      `does not set the state again`,
+      () => expect(stateSet).toHaveBeenCalledTimes(1)
+    )
+    it(`does not create any actors`, () => expect(actorInstances).toEqual(0))
+    it(
+      `does not handle any errors`,
+      () => expect(errorHandler).not.toHaveBeenCalled()
+    )
+    it(
+      `does not get the initial state of the application again`,
+      () => expect(applicationInitial).toHaveBeenCalledTimes(1)
+    )
+    it(
+      `does not apply any events`,
+      () => expect(applicationApply).not.toHaveBeenCalled()
+    )
+    it(
+      `does not tell itself`,
+      () => expect(receivedByTell).not.toHaveBeenCalled()
+    )
+    it(
+      `tells the plugin once`,
+      () => expect(pluginTell).toHaveBeenCalledTimes(1)
+    )
+    it(
+      `tells the plugin that state changed`,
+      () => expect(pluginTell).toHaveBeenCalledWith({
+        key: `stateChanged`,
+        value: {
+          event: null
+        }
+      })
+    )
+  })
 })

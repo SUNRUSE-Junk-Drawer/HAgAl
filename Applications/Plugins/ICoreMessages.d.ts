@@ -26,4 +26,14 @@ export default interface ICoreMessages<
       IPluginMessages<TState, TEvent, TApplication>
     >
   }
+
+  /**
+   * Requests that the application state be replaced entirely.
+   */
+  readonly replaceState: {
+    /**
+     * The application state to use.
+     */
+    readonly state: TState
+  }
 }
