@@ -1,5 +1,5 @@
 import IJsonObject from "../../IJsonObject"
-import StateContainer from "../../State/StateContainer"
+import IStateContainer from "../../State/IStateContainer"
 import IActor from "../../Actors/IActor"
 import IApplication from "../IApplication"
 import ICoreMessages from "./ICoreMessages"
@@ -34,6 +34,6 @@ export default interface IPluginMessages<
      * A reference to the (atomically updated, but mutable) current application
      * state.
      */
-    readonly state: StateContainer<TState>
+    readonly state: IStateContainer<TState>
   }
 }
