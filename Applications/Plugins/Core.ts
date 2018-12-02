@@ -6,10 +6,11 @@ import IErrorHandler from "../../Actors/IErrorHandler"
 import IMailbox from "../../Actors/IMailbox"
 import IActor from "../../Actors/IActor"
 import ILogMessages from "../../Logging/ILogMessages"
+import ILoggerProxy from "../../Logging/ILoggerProxy"
 import IApplication from "../IApplication"
 import ICoreMessages from "./ICoreMessages"
 import IPlugin from "./IPlugin"
-import IPluginMessages from "./IPluginMessages";
+import IPluginMessages from "./IPluginMessages"
 
 /**
  * Hosts an application, performing all "plumbing".
@@ -25,6 +26,7 @@ export default class Core<
   private readonly plugins: IStatelessSet<IActor<IPluginMessages<TState, TEvent, TApplication>>>
   private readonly state: IStateContainer<TState>
   private readonly logger: IActor<ILogMessages>
+  private readonly loggerProxy: ILoggerProxy
 
   /**
    * @param PluginsStatelessSet The constructor for the set of installed
@@ -58,6 +60,12 @@ export default class Core<
         errorHandler: IErrorHandler
       ): IActor<ILogMessages>
     },
+    private readonly LoggerProxy: {
+      new(
+        logger: IActor<ILogMessages>,
+        name: string
+      ): ILoggerProxy
+    },
     private readonly errorHandler: IErrorHandler,
     private readonly application: TApplication,
     logger: MultiMessageHandler<ILogMessages>
@@ -65,6 +73,7 @@ export default class Core<
     this.plugins = new PluginsStatelessSet()
     this.state = new StateContainer(application.initial())
     this.logger = new LoggerActor(Array, logger, errorHandler)
+    this.loggerProxy = new LoggerProxy(this.logger, `Core`)
   }
 
   /**
@@ -82,12 +91,11 @@ export default class Core<
       core: receivedBy,
       application: this.application,
       state: this.state,
-      logger: this.logger
+      logger: new this.LoggerProxy(this.logger, message.plugin.name)
     })
-    this.logger.tell(`information`, {
-      instigator: `Core`,
-      message: `Plugin "${message.plugin.name}" has been installed.`
-    })
+    this.loggerProxy.tell(
+      `information`, `Plugin "${message.plugin.name}" has been installed.`
+    )
   }
 
   /**
@@ -103,9 +111,6 @@ export default class Core<
     this.plugins.forEach(plugin => plugin.tell(`stateChanged`, {
       event: null
     }))
-    this.logger.tell(`information`, {
-      instigator: `Core`,
-      message: `Application state has been replaced.`
-    })
+    this.loggerProxy.tell(`information`, `Application state has been replaced.`)
   }
 }

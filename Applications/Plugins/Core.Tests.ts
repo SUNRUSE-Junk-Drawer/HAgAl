@@ -5,6 +5,7 @@ import IErrorHandler from "../../Actors/IErrorHandler"
 import { MultiMessageHandler } from "../../Actors/IMultiMessageHandler"
 import IActor from "../../Actors/IActor"
 import ILogMessages from "../../Logging/ILogMessages"
+import ILoggerProxy from "../../Logging/ILoggerProxy"
 import IPluginMessages from "./IPluginMessages"
 import IPlugin from "./IPlugin"
 import Core from "./Core"
@@ -50,6 +51,17 @@ let loggerActorMailbox: { new(): IMailbox<ILogMessages> }
 let loggerActorMultiMessageHandler: MultiMessageHandler<ILogMessages>
 let loggerActorErrorHandler: IErrorHandler
 let loggerActorTell: jasmine.Spy
+class LoggerProxy implements ILoggerProxy {
+  readonly tell = jasmine.createSpy()
+
+  constructor(
+    readonly logger: IActor<ILogMessages>,
+    readonly name: string
+  ) {
+    loggerProxyInstances.push(this)
+  }
+}
+let loggerProxyInstances: LoggerProxy[]
 let errorHandler: jasmine.Spy
 let application: IDerivedApplication
 let applicationInitial: jasmine.Spy
@@ -134,6 +146,8 @@ beforeEach(() => {
     readonly tell = loggerActorTell
   }
 
+  loggerProxyInstances = []
+
   errorHandler = jasmine.createSpy()
 
   applicationInitial = jasmine.createSpy()
@@ -164,6 +178,7 @@ beforeEach(() => {
     StateContainer,
     PluginActor,
     LoggerActor,
+    LoggerProxy,
     errorHandler,
     application,
     logger
@@ -208,6 +223,22 @@ it(
 it(
   `does not tell the created logger actor`,
   () => expect(loggerActorTell).not.toHaveBeenCalled()
+)
+it(
+  `creates one logger proxy`,
+  () => expect(loggerProxyInstances.length).toEqual(1)
+)
+it(
+  `creates the logger proxy using a name of "Core"`,
+  () => expect(loggerProxyInstances[0].name).toEqual(`Core`)
+)
+it(
+  `creates the logger proxy using the logger actor`,
+  () => expect(loggerProxyInstances[0].logger).toBe(loggerActorInstance)
+)
+it(
+  `does not tell the logger proxy`,
+  () => expect(loggerProxyInstances[0].tell).not.toHaveBeenCalled()
 )
 it(
   `does not handle any errors`,
@@ -308,7 +339,7 @@ describe(`install`, () => {
       core: receivedBy,
       application: application,
       state: stateInstance,
-      logger: loggerActorInstance
+      logger: loggerProxyInstances[1]
     })
   )
   it(
@@ -316,15 +347,34 @@ describe(`install`, () => {
     () => expect(loggerActorInstances).toEqual(1)
   )
   it(
-    `tells the logger actor once`,
-    () => expect(loggerActorTell).toHaveBeenCalledTimes(1)
+    `does not tell the logger actor`,
+    () => expect(loggerActorTell).not.toHaveBeenCalled()
   )
   it(
-    `tells the logger actor to log that a plugin has been installed`,
-    () => expect(loggerActorTell).toHaveBeenCalledWith(`information`, {
-      instigator: `Core`,
-      message: `Plugin "Test Plugin Name" has been installed.`
-    })
+    `tells the core logger proxy once`,
+    () => expect(loggerProxyInstances[0].tell).toHaveBeenCalledTimes(1)
+  )
+  it(
+    `tells the core logger proxy to log that a plugin has been installed`,
+    () => expect(loggerProxyInstances[0].tell).toHaveBeenCalledWith(
+      `information`, `Plugin "Test Plugin Name" has been installed.`
+    )
+  )
+  it(
+    `creates another logger proxy`,
+    () => expect(loggerProxyInstances.length).toEqual(2)
+  )
+  it(
+    `creates the logger proxy using the plugin's name`,
+    () => expect(loggerProxyInstances[1].name).toEqual(`Test Plugin Name`)
+  )
+  it(
+    `creates the logger proxy using the logger actor`,
+    () => expect(loggerProxyInstances[1].logger).toBe(loggerActorInstance)
+  )
+  it(
+    `does not tell the logger proxy`,
+    () => expect(loggerProxyInstances[1].tell).not.toHaveBeenCalled()
   )
   it(
     `does not handle any errors`,
@@ -421,15 +471,18 @@ describe(`replaceState`, () => {
     () => expect(loggerActorInstances).toEqual(1)
   )
   it(
-    `tells the logger actor once`,
-    () => expect(loggerActorTell).toHaveBeenCalledTimes(1)
+    `does not tell the logger actor`,
+    () => expect(loggerActorTell).not.toHaveBeenCalled()
+  )
+  it(
+    `tells the core logger proxy once`,
+    () => expect(loggerProxyInstances[0].tell).toHaveBeenCalledTimes(1)
   )
   it(
     `tells the logger actor to log that a state has been replaced`,
-    () => expect(loggerActorTell).toHaveBeenCalledWith(`information`, {
-      instigator: `Core`,
-      message: `Application state has been replaced.`
-    })
+    () => expect(loggerProxyInstances[0].tell).toHaveBeenCalledWith(
+      `information`, `Application state has been replaced.`
+    )
   )
   it(
     `does not handle any errors`,
@@ -509,8 +562,12 @@ describe(`replaceState`, () => {
       () => expect(loggerActorInstances).toEqual(1)
     )
     it(
-      `does not tell the logger actor again`,
-      () => expect(loggerActorTell).toHaveBeenCalledTimes(1)
+      `does not tell the logger actor`,
+      () => expect(loggerActorTell).not.toHaveBeenCalled()
+    )
+    it(
+      `does not tell the core logger proxy again`,
+      () => expect(loggerProxyInstances[0].tell).toHaveBeenCalledTimes(1)
     )
     it(
       `does not handle any errors`,

@@ -1,9 +1,9 @@
 import IJsonObject from "../../IJsonObject"
 import IStateContainer from "../../State/IStateContainer"
+import ILoggerProxy from "../../Logging/ILoggerProxy"
 import IActor from "../../Actors/IActor"
 import IApplication from "../IApplication"
 import ICoreMessages from "./ICoreMessages"
-import ILogMessages from "../../Logging/ILogMessages";
 
 /**
  * Messages which can be sent to the core which hosts an application and its
@@ -40,7 +40,7 @@ export default interface IPluginMessages<
     /**
      * The logger to use.
      */
-    readonly logger: IActor<ILogMessages>
+    readonly logger: ILoggerProxy
   }
 
   /**
