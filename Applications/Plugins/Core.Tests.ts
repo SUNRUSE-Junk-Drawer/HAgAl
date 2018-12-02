@@ -304,14 +304,11 @@ describe(`install`, () => {
   )
   it(
     `tells the created plugin actor it has been installed`,
-    () => expect(pluginActorTell).toHaveBeenCalledWith({
-      key: `installed`,
-      value: {
-        core: receivedBy,
-        application: application,
-        state: stateInstance,
-        logger: loggerActorInstance
-      }
+    () => expect(pluginActorTell).toHaveBeenCalledWith(`installed`, {
+      core: receivedBy,
+      application: application,
+      state: stateInstance,
+      logger: loggerActorInstance
     })
   )
   it(
@@ -324,12 +321,9 @@ describe(`install`, () => {
   )
   it(
     `tells the logger actor to log that a plugin has been installed`,
-    () => expect(loggerActorTell).toHaveBeenCalledWith({
-      key: `information`,
-      value: {
-        instigator: `Core`,
-        message: `Plugin "Test Plugin Name" has been installed.`
-      }
+    () => expect(loggerActorTell).toHaveBeenCalledWith(`information`, {
+      instigator: `Core`,
+      message: `Plugin "Test Plugin Name" has been installed.`
     })
   )
   it(
@@ -432,12 +426,9 @@ describe(`replaceState`, () => {
   )
   it(
     `tells the logger actor to log that a state has been replaced`,
-    () => expect(loggerActorTell).toHaveBeenCalledWith({
-      key: `information`,
-      value: {
-        instigator: `Core`,
-        message: `Application state has been replaced.`
-      }
+    () => expect(loggerActorTell).toHaveBeenCalledWith(`information`, {
+      instigator: `Core`,
+      message: `Application state has been replaced.`
     })
   )
   it(
@@ -543,11 +534,8 @@ describe(`replaceState`, () => {
     )
     it(
       `tells the plugin that state changed`,
-      () => expect(pluginTell).toHaveBeenCalledWith({
-        key: `stateChanged`,
-        value: {
-          event: null
-        }
+      () => expect(pluginTell).toHaveBeenCalledWith(`stateChanged`, {
+        event: null
       })
     )
     it(

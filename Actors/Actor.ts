@@ -1,4 +1,3 @@
-import { SingleKeyValueOf } from "../ISingleKeyValueOf"
 import IActor from "./IActor"
 import IMailbox from "./IMailbox"
 import { MultiMessageHandler } from "./IMultiMessageHandler"
@@ -29,14 +28,17 @@ export default class Actor<TMessages> implements IActor<TMessages> {
   /**
    * @inheritdoc
    */
-  tell(message: SingleKeyValueOf<TMessages>): void {
+  tell<TKey extends keyof TMessages>(
+    key: TKey,
+    value: TMessages[TKey]
+  ): void {
     if (this.running) {
-      this.mailbox.push(message)
+      this.mailbox.push({ key, value })
     } else {
       this.running = true
-      this.multiMessageHandler[message.key](
+      this.multiMessageHandler[key](
         this,
-        message.value
+        value
       ).then(
         () => this.done(),
         reason => {
@@ -51,7 +53,7 @@ export default class Actor<TMessages> implements IActor<TMessages> {
     this.running = false
     const nextMessage = this.mailbox.shift()
     if (nextMessage) {
-      this.tell(nextMessage)
+      this.tell(nextMessage.key, nextMessage.value)
     }
   }
 }

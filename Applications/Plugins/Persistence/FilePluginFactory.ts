@@ -93,24 +93,18 @@ export default class FilePluginFactory<
         throw e
       } else {
         const directory = this.pathDirname(this.filename)
-        logger.tell({
-          key: `verbose`,
-          value: {
-            instigator: `File`,
-            message: `"${this.filename}" does not exist; `
-              + `ensuring that directory "${directory}" exists...`
-          }
+        logger.tell(`verbose`, {
+          instigator: `File`,
+          message: `"${this.filename}" does not exist; `
+            + `ensuring that directory "${directory}" exists...`
         })
         await mkdirp(directory)
       }
     }
     if (data) {
-      logger.tell({
-        key: `verbose`,
-        value: {
-          instigator: `File`,
-          message: `"${this.filename}" exists; restoring state...`
-        }
+      logger.tell(`verbose`, {
+        instigator: `File`,
+        message: `"${this.filename}" exists; restoring state...`
       })
       state = JSON.parse(data)
     }

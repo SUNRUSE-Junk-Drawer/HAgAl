@@ -14,52 +14,10 @@ export default class LoggerProxy implements ILoggerProxy {
   /**
    * @inheritdoc
    */
-  verbose(message: string): void {
-    this.logger.tell({
-      key: `verbose`,
-      value: {
-        instigator: this.name,
-        message
-      }
-    })
-  }
-
-  /**
-   * @inheritdoc
-   */
-  information(message: string): void {
-    this.logger.tell({
-      key: `information`,
-      value: {
-        instigator: this.name,
-        message
-      }
-    })
-  }
-
-  /**
-   * @inheritdoc
-   */
-  warning(message: string): void {
-    this.logger.tell({
-      key: `warning`,
-      value: {
-        instigator: this.name,
-        message
-      }
-    })
-  }
-
-  /**
-   * @inheritdoc
-   */
-  error(message: string): void {
-    this.logger.tell({
-      key: `error`,
-      value: {
-        instigator: this.name,
-        message
-      }
+  tell(key: keyof ILogMessages, message: string): void {
+    this.logger.tell(key, {
+      instigator: this.name,
+      message
     })
   }
 }

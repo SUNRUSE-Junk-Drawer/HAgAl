@@ -78,21 +78,15 @@ export default class Core<
   ): Promise<void> {
     const actor = new this.PluginActor(Array, message.plugin, this.errorHandler)
     this.plugins.push(actor)
-    actor.tell({
-      key: `installed`,
-      value: {
-        core: receivedBy,
-        application: this.application,
-        state: this.state,
-        logger: this.logger
-      }
+    actor.tell(`installed`, {
+      core: receivedBy,
+      application: this.application,
+      state: this.state,
+      logger: this.logger
     })
-    this.logger.tell({
-      key: `information`,
-      value: {
-        instigator: `Core`,
-        message: `Plugin "${message.plugin.name}" has been installed.`
-      }
+    this.logger.tell(`information`, {
+      instigator: `Core`,
+      message: `Plugin "${message.plugin.name}" has been installed.`
     })
   }
 
@@ -106,18 +100,12 @@ export default class Core<
     }
   ): Promise<void> {
     this.state.set(message.state)
-    this.plugins.forEach(plugin => plugin.tell({
-      key: `stateChanged`,
-      value: {
-        event: null
-      }
+    this.plugins.forEach(plugin => plugin.tell(`stateChanged`, {
+      event: null
     }))
-    this.logger.tell({
-      key: `information`,
-      value: {
-        instigator: `Core`,
-        message: `Application state has been replaced.`
-      }
+    this.logger.tell(`information`, {
+      instigator: `Core`,
+      message: `Application state has been replaced.`
     })
   }
 }

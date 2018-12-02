@@ -163,12 +163,9 @@ describe(`createInstance`, () => {
     )
     it(
       `logs to indicate that state is being restored`,
-      () => expect(loggerTell).toHaveBeenCalledWith({
-        key: `verbose`,
-        value: {
-          instigator: `File`,
-          message: `"Test Filename" exists; restoring state...`
-        }
+      () => expect(loggerTell).toHaveBeenCalledWith(`verbose`, {
+        instigator: `File`,
+        message: `"Test Filename" exists; restoring state...`
       })
     )
     it(
@@ -263,13 +260,10 @@ describe(`createInstance`, () => {
       )
       it(
         `logs to indicate that state is being restored`,
-        () => expect(loggerTell).toHaveBeenCalledWith({
-          key: `verbose`,
-          value: {
-            instigator: `File`,
-            message: `"Test Filename" does not exist; ensuring that directory `
-              + `"Test Filename Dirname" exists...`
-          }
+        () => expect(loggerTell).toHaveBeenCalledWith(`verbose`, {
+          instigator: `File`,
+          message: `"Test Filename" does not exist; ensuring that directory `
+            + `"Test Filename Dirname" exists...`
         })
       )
       it(
@@ -693,13 +687,10 @@ describe(`createInstance`, () => {
       )
       it(
         `logs to indicate that state is being restored`,
-        () => expect(loggerTell).toHaveBeenCalledWith({
-          key: `verbose`,
-          value: {
-            instigator: `File`,
-            message: `"Test Filename" does not exist; ensuring that directory `
-              + `"Test Filename Dirname" exists...`
-          }
+        () => expect(loggerTell).toHaveBeenCalledWith(`verbose`, {
+          instigator: `File`,
+          message: `"Test Filename" does not exist; ensuring that directory `
+            + `"Test Filename Dirname" exists...`
         })
       )
       it(

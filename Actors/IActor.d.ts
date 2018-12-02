@@ -7,7 +7,11 @@ import { SingleKeyValueOf } from "../ISingleKeyValueOf"
 export default interface IActor<TMessages> {
   /**
    * Enqueues a message to process.
-   * @param message The message to process.
+   * @param key The type of message to process.
+   * @param value The message body to process.
    */
-  tell(message: SingleKeyValueOf<TMessages>): void
+  tell<TKey extends keyof TMessages>(
+    key: TKey,
+    value: TMessages[TKey]
+  ): void
 }

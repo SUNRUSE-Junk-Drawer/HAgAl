@@ -101,7 +101,8 @@ function RunSteps(steps: Step[]) {
             await nextTick()
           }
 
-          step.messagesDuringCallback.forEach(message => actor.tell(message))
+          step.messagesDuringCallback
+            .forEach(message => actor.tell(message.key, message.value))
           if (step.reason) {
             throw step.reason
           }
@@ -118,7 +119,7 @@ function RunSteps(steps: Step[]) {
       actor = new Actor<IMessage>(Mailbox, messageHandler, errorHandler)
       for (const step of steps) {
         if (!step.messageAvailableImmediately) {
-          actor.tell(step.message)
+          actor.tell(step.message.key, step.message.value)
           await nextTick()
           await nextTick()
         }

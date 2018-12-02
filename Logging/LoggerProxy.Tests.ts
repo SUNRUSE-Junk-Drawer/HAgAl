@@ -21,73 +21,61 @@ it(
 )
 
 describe(`verbose`, () => {
-  beforeEach(() => loggerProxy.verbose(`Test Message`))
+  beforeEach(() => loggerProxy.tell(`verbose`, `Test Message`))
   it(
     `tells one message to the proxied logger`,
     () => expect(loggerTell).toHaveBeenCalledTimes(1)
   )
   it(
     `tells the proxied logger to log a verbose message`,
-    () => expect(loggerTell).toHaveBeenCalledWith({
-      key: `verbose`,
-      value: {
-        instigator: `Test Name`,
-        message: `Test Message`
-      }
+    () => expect(loggerTell).toHaveBeenCalledWith(`verbose`, {
+      instigator: `Test Name`,
+      message: `Test Message`
     })
   )
 })
 
 describe(`information`, () => {
-  beforeEach(() => loggerProxy.information(`Test Message`))
+  beforeEach(() => loggerProxy.tell(`information`, `Test Message`))
   it(
     `tells one message to the proxied logger`,
     () => expect(loggerTell).toHaveBeenCalledTimes(1)
   )
   it(
     `tells the proxied logger to log a information message`,
-    () => expect(loggerTell).toHaveBeenCalledWith({
-      key: `information`,
-      value: {
-        instigator: `Test Name`,
-        message: `Test Message`
-      }
+    () => expect(loggerTell).toHaveBeenCalledWith(`information`, {
+      instigator: `Test Name`,
+      message: `Test Message`
     })
   )
 })
 
 describe(`warning`, () => {
-  beforeEach(() => loggerProxy.warning(`Test Message`))
+  beforeEach(() => loggerProxy.tell(`warning`, `Test Message`))
   it(
     `tells one message to the proxied logger`,
     () => expect(loggerTell).toHaveBeenCalledTimes(1)
   )
   it(
     `tells the proxied logger to log a warning message`,
-    () => expect(loggerTell).toHaveBeenCalledWith({
-      key: `warning`,
-      value: {
-        instigator: `Test Name`,
-        message: `Test Message`
-      }
+    () => expect(loggerTell).toHaveBeenCalledWith(`warning`, {
+      instigator: `Test Name`,
+      message: `Test Message`
     })
   )
 })
 
 describe(`error`, () => {
-  beforeEach(() => loggerProxy.error(`Test Message`))
+  beforeEach(() => loggerProxy.tell(`error`, `Test Message`))
   it(
     `tells one message to the proxied logger`,
     () => expect(loggerTell).toHaveBeenCalledTimes(1)
   )
   it(
     `tells the proxied logger to log a error message`,
-    () => expect(loggerTell).toHaveBeenCalledWith({
-      key: `error`,
-      value: {
-        instigator: `Test Name`,
-        message: `Test Message`
-      }
+    () => expect(loggerTell).toHaveBeenCalledWith(`error`, {
+      instigator: `Test Name`,
+      message: `Test Message`
     })
   )
 })
