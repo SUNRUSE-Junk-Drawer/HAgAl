@@ -47,6 +47,7 @@ describe(`on calling`, () => {
   })
   describe(`verbose`, () => {
     beforeEach(async () => await logger.verbose(receivedBy, {
+      instigator: `Test Instigator`,
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -56,8 +57,9 @@ describe(`on calling`, () => {
     )
     it(
       `calls console.log with the built message`,
-      () => expect(consoleLog)
-        .toHaveBeenCalledWith(`Verbose@Test Iso String: Test Message`)
+      () => expect(consoleLog).toHaveBeenCalledWith(
+        `Test Instigator - Verbose@Test Iso String: Test Message`
+      )
     )
     it(
       `does not call console.info`,
@@ -78,6 +80,7 @@ describe(`on calling`, () => {
   })
   describe(`information`, () => {
     beforeEach(async () => await logger.information(receivedBy, {
+      instigator: `Test Instigator`,
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -91,8 +94,9 @@ describe(`on calling`, () => {
     )
     it(
       `calls console.info with the built message`,
-      () => expect(consoleInfo)
-        .toHaveBeenCalledWith(`Information@Test Iso String: Test Message`)
+      () => expect(consoleInfo).toHaveBeenCalledWith(
+        `Test Instigator - Information@Test Iso String: Test Message`
+      )
     )
     it(
       `does not call console.warn`,
@@ -109,6 +113,7 @@ describe(`on calling`, () => {
   })
   describe(`warning`, () => {
     beforeEach(async () => await logger.warning(receivedBy, {
+      instigator: `Test Instigator`,
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -126,8 +131,9 @@ describe(`on calling`, () => {
     )
     it(
       `calls console.warn with the built message`,
-      () => expect(consoleWarn)
-        .toHaveBeenCalledWith(`Warning@Test Iso String: Test Message`)
+      () => expect(consoleWarn).toHaveBeenCalledWith(
+        `Test Instigator - Warning@Test Iso String: Test Message`
+      )
     )
     it(
       `does not call console.error`,
@@ -140,6 +146,7 @@ describe(`on calling`, () => {
   })
   describe(`error`, () => {
     beforeEach(async () => await logger.error(receivedBy, {
+      instigator: `Test Instigator`,
       message: `Test Message`
     }))
     it(`creates one Date`, () => expect(createdDates).toEqual(1))
@@ -161,8 +168,9 @@ describe(`on calling`, () => {
     )
     it(
       `calls console.error with the built message`,
-      () => expect(consoleError)
-        .toHaveBeenCalledWith(`Error@Test Iso String: Test Message`)
+      () => expect(consoleError).toHaveBeenCalledWith(
+        `Test Instigator - Error@Test Iso String: Test Message`
+      )
     )
     it(
       `does not tell itself`,

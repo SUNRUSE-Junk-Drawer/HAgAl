@@ -31,10 +31,12 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   async verbose(
     receivedBy: IActor<ILogMessages>,
     message: {
+      readonly instigator: string
       readonly message: string
     }): Promise<void> {
     this.console.log(
-      `Verbose@${new this.Date().toISOString()}: ${message.message}`
+      `${message.instigator} - Verbose@${new this.Date().toISOString()}: `
+      + message.message
     )
   }
 
@@ -44,10 +46,12 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   async information(
     receivedBy: IActor<ILogMessages>,
     message: {
+      readonly instigator: string
       readonly message: string
     }): Promise<void> {
     this.console.info(
-      `Information@${new this.Date().toISOString()}: ${message.message}`
+      `${message.instigator} - Information@${new this.Date().toISOString()}: `
+      + message.message
     )
   }
 
@@ -57,10 +61,12 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   async warning(
     receivedBy: IActor<ILogMessages>,
     message: {
+      readonly instigator: string
       readonly message: string
     }): Promise<void> {
     this.console.warn(
-      `Warning@${new this.Date().toISOString()}: ${message.message}`
+      `${message.instigator} - Warning@${new this.Date().toISOString()}: `
+      + message.message
     )
   }
 
@@ -70,10 +76,12 @@ export default class ConsoleLogger implements MultiMessageHandler<ILogMessages> 
   async error(
     receivedBy: IActor<ILogMessages>,
     message: {
+      readonly instigator: string
       readonly message: string
     }): Promise<void> {
     this.console.error(
-      `Error@${new this.Date().toISOString()}: ${message.message}`
+      `${message.instigator} - Error@${new this.Date().toISOString()}: `
+      + message.message
     )
   }
 }

@@ -90,6 +90,7 @@ export default class Core<
     this.logger.tell({
       key: `information`,
       value: {
+        instigator: `Core`,
         message: `Plugin "${message.plugin.name}" has been installed.`
       }
     })
@@ -114,6 +115,7 @@ export default class Core<
     this.logger.tell({
       key: `information`,
       value: {
+        instigator: `Core`,
         message: `Application state has been replaced.`
       }
     })

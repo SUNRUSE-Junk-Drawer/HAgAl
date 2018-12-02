@@ -96,6 +96,7 @@ export default class FilePluginFactory<
         logger.tell({
           key: `verbose`,
           value: {
+            instigator: `File`,
             message: `"${this.filename}" does not exist; `
               + `ensuring that directory "${directory}" exists...`
           }
@@ -107,6 +108,7 @@ export default class FilePluginFactory<
       logger.tell({
         key: `verbose`,
         value: {
+          instigator: `File`,
           message: `"${this.filename}" exists; restoring state...`
         }
       })

@@ -7,6 +7,11 @@ export default interface ILogMessages {
    */
   readonly verbose: {
     /**
+     * The name of the actor which generated the message.
+     */
+    readonly instigator: string
+
+    /**
      * The message to log.
      */
     readonly message: string
@@ -16,6 +21,11 @@ export default interface ILogMessages {
    * Indicates that an important event occurred.
    */
   readonly information: {
+    /**
+     * The name of the actor which generated the message.
+     */
+    readonly instigator: string
+
     /**
      * The message to log.
      */
@@ -27,6 +37,11 @@ export default interface ILogMessages {
    */
   readonly warning: {
     /**
+     * The name of the actor which generated the message.
+     */
+    readonly instigator: string
+
+    /**
      * The message to log.
      */
     readonly message: string
@@ -36,6 +51,11 @@ export default interface ILogMessages {
    * Indicates that a serious error has occured.
    */
   readonly error: {
+    /**
+     * The name of the actor which generated the message.
+     */
+    readonly instigator: string
+
     /**
      * The message to log.
      */

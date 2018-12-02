@@ -166,6 +166,7 @@ describe(`createInstance`, () => {
       () => expect(loggerTell).toHaveBeenCalledWith({
         key: `verbose`,
         value: {
+          instigator: `File`,
           message: `"Test Filename" exists; restoring state...`
         }
       })
@@ -265,6 +266,7 @@ describe(`createInstance`, () => {
         () => expect(loggerTell).toHaveBeenCalledWith({
           key: `verbose`,
           value: {
+            instigator: `File`,
             message: `"Test Filename" does not exist; ensuring that directory `
               + `"Test Filename Dirname" exists...`
           }
@@ -694,6 +696,7 @@ describe(`createInstance`, () => {
         () => expect(loggerTell).toHaveBeenCalledWith({
           key: `verbose`,
           value: {
+            instigator: `File`,
             message: `"Test Filename" does not exist; ensuring that directory `
               + `"Test Filename Dirname" exists...`
           }

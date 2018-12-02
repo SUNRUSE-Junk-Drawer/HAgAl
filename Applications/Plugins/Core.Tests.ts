@@ -327,6 +327,7 @@ describe(`install`, () => {
     () => expect(loggerActorTell).toHaveBeenCalledWith({
       key: `information`,
       value: {
+        instigator: `Core`,
         message: `Plugin "Test Plugin Name" has been installed.`
       }
     })
@@ -434,6 +435,7 @@ describe(`replaceState`, () => {
     () => expect(loggerActorTell).toHaveBeenCalledWith({
       key: `information`,
       value: {
+        instigator: `Core`,
         message: `Application state has been replaced.`
       }
     })
