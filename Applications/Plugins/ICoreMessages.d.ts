@@ -1,7 +1,7 @@
 import IJsonObject from "../../IJsonObject"
 import { MultiMessageHandler } from "../../Actors/IMultiMessageHandler"
 import IApplication from "../IApplication"
-import IPluginMessages from "./IPluginMessages"
+import IPlugin from "./IPlugin"
 
 /**
  * Messages which can be sent to the core which hosts an application and its
@@ -20,16 +20,9 @@ export default interface ICoreMessages<
    */
   readonly install: {
     /**
-     * The message handler of the plugin to install.
+     * The plugin to install.
      */
-    readonly plugin: MultiMessageHandler<
-      IPluginMessages<TState, TEvent, TApplication>
-    >
-
-    /**
-     * The name of the plugin to install.
-     */
-    readonly name: string
+    readonly plugin: IPlugin<TState, TEvent, TApplication>
   }
 
   /**

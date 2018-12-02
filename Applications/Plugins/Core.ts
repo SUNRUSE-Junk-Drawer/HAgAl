@@ -8,7 +8,8 @@ import IActor from "../../Actors/IActor"
 import ILogMessages from "../../Logging/ILogMessages"
 import IApplication from "../IApplication"
 import ICoreMessages from "./ICoreMessages"
-import IPluginMessages from "./IPluginMessages"
+import IPlugin from "./IPlugin"
+import IPluginMessages from "./IPluginMessages";
 
 /**
  * Hosts an application, performing all "plumbing".
@@ -72,10 +73,7 @@ export default class Core<
   async install(
     receivedBy: IActor<ICoreMessages<TState, TEvent, TApplication>>,
     message: {
-      readonly plugin: MultiMessageHandler<
-        IPluginMessages<TState, TEvent, TApplication>
-      >,
-      readonly name: string
+      readonly plugin: IPlugin<TState, TEvent, TApplication>
     }
   ): Promise<void> {
     const actor = new this.PluginActor(Array, message.plugin, this.errorHandler)
@@ -92,7 +90,7 @@ export default class Core<
     this.logger.tell({
       key: `information`,
       value: {
-        message: `Plugin "${message.name}" has been installed.`
+        message: `Plugin "${message.plugin.name}" has been installed.`
       }
     })
   }

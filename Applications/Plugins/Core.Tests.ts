@@ -6,6 +6,7 @@ import { MultiMessageHandler } from "../../Actors/IMultiMessageHandler"
 import IActor from "../../Actors/IActor"
 import ILogMessages from "../../Logging/ILogMessages"
 import IPluginMessages from "./IPluginMessages"
+import IPlugin from "./IPlugin"
 import Core from "./Core"
 import IApplication from "../IApplication"
 import IStatelessSet from "../../State/IStatelessSet"
@@ -242,7 +243,7 @@ describe(`install`, () => {
   let receivedBy: IActor<ICoreMessages<IState, IEvent, IDerivedApplication>>
   let pluginInstalled: jasmine.Spy
   let pluginStateChanged: jasmine.Spy
-  let plugin: MultiMessageHandler<IPluginMessages<IState, IEvent, IDerivedApplication>>
+  let plugin: IPlugin<IState, IEvent, IDerivedApplication>
   beforeEach(() => {
     receivedByTell = jasmine.createSpy()
     receivedBy = {
@@ -253,12 +254,12 @@ describe(`install`, () => {
     pluginStateChanged = jasmine.createSpy()
     plugin = {
       installed: pluginInstalled,
-      stateChanged: pluginStateChanged
+      stateChanged: pluginStateChanged,
+      name: `Test Plugin Name`
     }
 
     core.install(receivedBy, {
-      plugin,
-      name: `Test Plugin Name`
+      plugin
     })
   })
 
