@@ -3,6 +3,7 @@ import IStateContainer from "../../State/IStateContainer"
 import IActor from "../../Actors/IActor"
 import IApplication from "../IApplication"
 import ICoreMessages from "./ICoreMessages"
+import ILogMessages from "../../Logging/ILogMessages";
 
 /**
  * Messages which can be sent to the core which hosts an application and its
@@ -35,6 +36,11 @@ export default interface IPluginMessages<
      * state.
      */
     readonly state: IStateContainer<TState>
+
+    /**
+     * The logger to use.
+     */
+    readonly logger: IActor<ILogMessages>
   }
 
   /**

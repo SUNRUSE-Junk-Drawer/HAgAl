@@ -5,6 +5,7 @@ import { MultiMessageHandler } from "../../Actors/IMultiMessageHandler"
 import IErrorHandler from "../../Actors/IErrorHandler"
 import IMailbox from "../../Actors/IMailbox"
 import IActor from "../../Actors/IActor"
+import ILogMessages from "../../Logging/ILogMessages"
 import IApplication from "../IApplication"
 import ICoreMessages from "./ICoreMessages"
 import IPluginMessages from "./IPluginMessages"
@@ -22,13 +23,14 @@ export default class Core<
   > implements MultiMessageHandler<ICoreMessages<TState, TEvent, TApplication>> {
   private readonly plugins: IStatelessSet<IActor<IPluginMessages<TState, TEvent, TApplication>>>
   private readonly state: IStateContainer<TState>
+  private readonly logger: IActor<ILogMessages>
 
   /**
-   *
    * @param PluginsStatelessSet The constructor for the set of installed
    * plugins.
    * @param errorHandler The error handler for plugins to use.
    * @param application The application hosted.
+   * @param logger The logger to use.
    */
   constructor(
     PluginsStatelessSet: {
@@ -37,7 +39,7 @@ export default class Core<
       >
     },
     StateContainer: { new(state: TState): IStateContainer<TState> },
-    private readonly Actor: {
+    private readonly PluginActor: {
       new(
         Mailbox: {
           new(): IMailbox<IPluginMessages<TState, TEvent, TApplication>>
@@ -48,11 +50,20 @@ export default class Core<
         errorHandler: IErrorHandler
       ): IActor<IPluginMessages<TState, TEvent, TApplication>>
     },
+    LoggerActor: {
+      new(
+        Mailbox: { new(): IMailbox<ILogMessages> },
+        multiMessageHandler: MultiMessageHandler<ILogMessages>,
+        errorHandler: IErrorHandler
+      ): IActor<ILogMessages>
+    },
     private readonly errorHandler: IErrorHandler,
-    private readonly application: TApplication
+    private readonly application: TApplication,
+    logger: MultiMessageHandler<ILogMessages>
   ) {
     this.plugins = new PluginsStatelessSet()
     this.state = new StateContainer(application.initial())
+    this.logger = new LoggerActor(Array, logger, errorHandler)
   }
 
   /**
@@ -63,17 +74,25 @@ export default class Core<
     message: {
       readonly plugin: MultiMessageHandler<
         IPluginMessages<TState, TEvent, TApplication>
-      >
+      >,
+      readonly name: string
     }
   ): Promise<void> {
-    const actor = new this.Actor(Array, message.plugin, this.errorHandler)
+    const actor = new this.PluginActor(Array, message.plugin, this.errorHandler)
     this.plugins.push(actor)
     actor.tell({
       key: `installed`,
       value: {
         core: receivedBy,
         application: this.application,
-        state: this.state
+        state: this.state,
+        logger: this.logger
+      }
+    })
+    this.logger.tell({
+      key: `information`,
+      value: {
+        message: `Plugin "${message.name}" has been installed.`
       }
     })
   }
@@ -94,5 +113,11 @@ export default class Core<
         event: null
       }
     }))
+    this.logger.tell({
+      key: `information`,
+      value: {
+        message: `Application state has been replaced.`
+      }
+    })
   }
 }

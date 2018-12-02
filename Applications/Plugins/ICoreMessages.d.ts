@@ -25,6 +25,11 @@ export default interface ICoreMessages<
     readonly plugin: MultiMessageHandler<
       IPluginMessages<TState, TEvent, TApplication>
     >
+
+    /**
+     * The name of the plugin to install.
+     */
+    readonly name: string
   }
 
   /**
