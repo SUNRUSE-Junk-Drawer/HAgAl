@@ -48,6 +48,11 @@ export default interface IPluginMessages<
    */
   readonly stateChanged: {
     /**
+     * The application state changed to.
+     */
+    readonly state: TState
+
+    /**
      * The event which changed the application state, if any.
      */
     readonly event: null | TEvent

@@ -109,6 +109,7 @@ export default class Core<
   ): Promise<void> {
     this.state.set(message.state)
     this.plugins.forEach(plugin => plugin.tell(`stateChanged`, {
+      state: message.state,
       event: null
     }))
     this.loggerProxy.tell(`information`, `Application state has been replaced.`)

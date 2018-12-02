@@ -592,6 +592,9 @@ describe(`replaceState`, () => {
     it(
       `tells the plugin that state changed`,
       () => expect(pluginTell).toHaveBeenCalledWith(`stateChanged`, {
+        state: {
+          stateContent: `Test Replacing State Content`
+        },
         event: null
       })
     )
