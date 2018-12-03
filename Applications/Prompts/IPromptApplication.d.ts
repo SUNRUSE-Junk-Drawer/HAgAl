@@ -1,4 +1,5 @@
 import IJsonObject from "../../IJsonObject"
+import IMultiUserApplication from "../IMultiUserApplication"
 import IPrompt from "./IPrompt"
 
 /**
@@ -9,7 +10,7 @@ import IPrompt from "./IPrompt"
 export default interface IPromptApplication<
   TState extends IJsonObject,
   TEvent extends IJsonObject
-  > {
+  > extends IMultiUserApplication<TState, TEvent> {
   /**
    * Generates a prompt to show from a state and viewing session ID.
    * @param state The state from which to generate a prompt.
@@ -18,14 +19,4 @@ export default interface IPromptApplication<
    * ID.
    */
   view(state: TState, sessionId: string): IPrompt<TEvent>
-
-  /**
-   * Generates a string which is compared to determine whether a user's view
-   * needs to be refreshed.
-   * @param state The state from which to generate a prompt.
-   * @param sessionId The viewing session ID for which to generate a prompt.
-   * @returns A string which changes only when the user's view needs to be
-   * refreshed.
-   */
-  hash(state: TState, sessionId: string): string
 }
