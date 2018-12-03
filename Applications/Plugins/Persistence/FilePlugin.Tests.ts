@@ -1,6 +1,6 @@
 import "jasmine"
 import IJsonObject from "../../../IJsonObject"
-import IStateContainer from "../../../State/IStateContainer"
+import IReadOnlyStateContainer from "../../../State/IReadOnlyStateContainer"
 import IActor from "../../../Actors/IActor"
 import ILoggerProxy from "../../../Logging/ILoggerProxy"
 import FilePlugin from "./FilePlugin"
@@ -69,12 +69,11 @@ describe(`install`, () => {
   let applicationInitial: jasmine.Spy
   let applicationApply: jasmine.Spy
   let stateGet: jasmine.Spy
-  let stateSet: jasmine.Spy
   let loggerTell: jasmine.Spy
   let installed: {
     readonly core: IActor<ICoreMessages<IState, IEvent, ICustomApplication>>
     readonly application: ICustomApplication
-    readonly state: IStateContainer<IState>
+    readonly state: IReadOnlyStateContainer<IState>
     readonly logger: ILoggerProxy
   }
   beforeEach(() => {
@@ -83,7 +82,6 @@ describe(`install`, () => {
     applicationInitial = jasmine.createSpy()
     applicationApply = jasmine.createSpy()
     stateGet = jasmine.createSpy()
-    stateSet = jasmine.createSpy()
     loggerTell = jasmine.createSpy()
     installed = {
       core: {
@@ -95,8 +93,7 @@ describe(`install`, () => {
         apply: applicationApply
       },
       state: {
-        get: stateGet,
-        set: stateSet
+        get: stateGet
       },
       logger: {
         tell: loggerTell
@@ -186,10 +183,6 @@ describe(`install`, () => {
     it(
       `does not call state.get`,
       () => expect(stateGet).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call state.set`,
-      () => expect(stateSet).not.toHaveBeenCalled()
     )
     it(
       `logs once`,
@@ -286,10 +279,6 @@ describe(`install`, () => {
         () => expect(stateGet).not.toHaveBeenCalled()
       )
       it(
-        `does not call state.set`,
-        () => expect(stateSet).not.toHaveBeenCalled()
-      )
-      it(
         `logs once`,
         () => expect(loggerTell).toHaveBeenCalledTimes(1)
       )
@@ -379,10 +368,6 @@ describe(`install`, () => {
       it(
         `does not call state.get`,
         () => expect(stateGet).not.toHaveBeenCalled()
-      )
-      it(
-        `does not call state.set`,
-        () => expect(stateSet).not.toHaveBeenCalled()
       )
       it(
         `logs once`,
@@ -496,10 +481,6 @@ describe(`install`, () => {
           it(
             `does not call state.get`,
             () => expect(stateGet).not.toHaveBeenCalled()
-          )
-          it(
-            `does not call state.set`,
-            () => expect(stateSet).not.toHaveBeenCalled()
           )
           it(
             `does not log`,
@@ -691,10 +672,6 @@ describe(`install`, () => {
             () => expect(stateGet).not.toHaveBeenCalled()
           )
           it(
-            `does not call state.set`,
-            () => expect(stateSet).not.toHaveBeenCalled()
-          )
-          it(
             `does not log`,
             () => expect(loggerTell).not.toHaveBeenCalled()
           )
@@ -780,10 +757,6 @@ describe(`install`, () => {
     it(
       `does not call state.get`,
       () => expect(stateGet).not.toHaveBeenCalled()
-    )
-    it(
-      `does not call state.set`,
-      () => expect(stateSet).not.toHaveBeenCalled()
     )
     it(
       `does not log`,

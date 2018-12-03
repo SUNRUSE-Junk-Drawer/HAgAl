@@ -1,6 +1,6 @@
 import * as util from "util"
 import IJsonObject from "../../../IJsonObject"
-import IStateContainer from "../../../State/IStateContainer"
+import IReadOnlyStateContainer from "../../../State/IReadOnlyStateContainer"
 import ILoggerProxy from "../../../Logging/ILoggerProxy"
 import IActor from "../../../Actors/IActor"
 import IApplication from "../../IApplication"
@@ -87,7 +87,7 @@ export default class FilePlugin<
     message: {
       readonly core: IActor<ICoreMessages<TState, TEvent, TApplication>>
       readonly application: TApplication
-      readonly state: IStateContainer<TState>
+      readonly state: IReadOnlyStateContainer<TState>
       readonly logger: ILoggerProxy
     }
   ): Promise<void> {

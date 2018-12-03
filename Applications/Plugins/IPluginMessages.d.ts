@@ -1,5 +1,5 @@
 import IJsonObject from "../../IJsonObject"
-import IStateContainer from "../../State/IStateContainer"
+import IReadOnlyStateContainer from "../../State/IReadOnlyStateContainer"
 import ILoggerProxy from "../../Logging/ILoggerProxy"
 import IActor from "../../Actors/IActor"
 import IApplication from "../IApplication"
@@ -35,7 +35,7 @@ export default interface IPluginMessages<
      * A reference to the (atomically updated, but mutable) current application
      * state.
      */
-    readonly state: IStateContainer<TState>
+    readonly state: IReadOnlyStateContainer<TState>
 
     /**
      * The logger to use.
