@@ -128,4 +128,18 @@ export default class FilePlugin<
     await this.fsWriteFile(this.tempFilename, JSON.stringify(message.state))
     await this.fsRename(this.tempFilename, this.filename)
   }
+
+  /**
+   * @inheritdoc
+   */
+  async stateStale(
+    receivedBy: IActor<IPluginMessages<TState, TEvent, TApplication>>,
+    message: {
+      readonly sessionId: string
+      readonly state: TState
+      readonly staleHash: string
+      readonly freshHash: string
+    }
+  ): Promise<void> {
+  }
 }

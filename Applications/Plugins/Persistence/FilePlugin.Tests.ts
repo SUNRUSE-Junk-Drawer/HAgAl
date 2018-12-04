@@ -709,6 +709,66 @@ describe(`install`, () => {
         { eventContent: `Test Written Event` }
       )
       StateChanged(`stateChanged without event`, null)
+      describe(`stateStale`, () => {
+        beforeEach(async () => await filePlugin.stateStale(receivedBy, {
+          sessionId: `Test Session Id`,
+          state: { stateContent: `Test Fresh State` },
+          staleHash: `Test Stale Hash`,
+          freshHash: `Test Fresh Hash`
+        }))
+        it(
+          `does not call fs.readFile`,
+          () => expect(fsReadFile).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call path.dirname`,
+          () => expect(pathDirname).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call mkdirp`,
+          () => expect(mkdirp).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call fs.writeFile`,
+          () => expect(fsWriteFile).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call fs.writeFile`,
+          () => expect(fsWriteFile).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call fs.rename`,
+          () => expect(fsRename).not.toHaveBeenCalled()
+        )
+        it(
+          `does not tell itself`,
+          () => expect(receivedByTell).not.toHaveBeenCalled()
+        )
+        it(
+          `does not tell the core`,
+          () => expect(coreTell).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call application.initial`,
+          () => expect(applicationInitial).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call application.apply`,
+          () => expect(applicationApply).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call application.hash`,
+          () => expect(applicationHash).not.toHaveBeenCalled()
+        )
+        it(
+          `does not call state.get`,
+          () => expect(stateGet).not.toHaveBeenCalled()
+        )
+        it(
+          `does not log`,
+          () => expect(loggerTell).not.toHaveBeenCalled()
+        )
+      })
     })
   }
 

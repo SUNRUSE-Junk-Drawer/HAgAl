@@ -1,5 +1,6 @@
 import IJsonObject from "../../IJsonObject"
 import { MultiMessageHandler } from "../../Actors/IMultiMessageHandler"
+import IActor from "../../Actors/IActor"
 import IApplication from "../IApplication"
 import IPlugin from "./IPlugin"
 
@@ -33,5 +34,30 @@ export default interface ICoreMessages<
      * The application state to use.
      */
     readonly state: TState
+  }
+
+  /**
+   * Requests that an event be applied should it not be based upon stale data.
+   */
+  readonly applyEvent: {
+    /**
+     * The event to apply to the application state.
+     */
+    readonly event: TEvent
+
+    /**
+     * The ID of the session which generated the event.
+     */
+    readonly sessionId: string
+
+    /**
+     * The application hash at the time of generating the event.
+     */
+    readonly hash: string
+
+    /**
+     * The sender of this message.
+     */
+    readonly sender: IActor<IPlugin<TState, TEvent, TApplication>>
   }
 }

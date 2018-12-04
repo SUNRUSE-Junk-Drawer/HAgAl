@@ -114,4 +114,43 @@ export default class Core<
     }))
     this.loggerProxy.tell(`information`, `Application state has been replaced.`)
   }
+
+  /**
+   * @inheritdoc
+   */
+  async applyEvent(
+    receivedBy: IActor<ICoreMessages<TState, TEvent, TApplication>>,
+    message: {
+      readonly event: TEvent
+      readonly sessionId: string
+      readonly hash: string
+      readonly sender: IActor<IPluginMessages<TState, TEvent, TApplication>>
+    }
+  ): Promise<void> {
+    const previousState = this.state.get()
+    const freshHash = this.application.hash(previousState, message.sessionId)
+    if (freshHash == message.hash) {
+      const nextState = this.application.apply(previousState, message.event)
+      this.state.set(nextState)
+      this.plugins.forEach(plugin => plugin.tell(`stateChanged`, {
+        state: nextState,
+        event: message.event
+      }))
+      this.loggerProxy.tell(
+        `information`,
+        `An event has been applied to the application state.`
+      )
+    } else {
+      message.sender.tell(`stateStale`, {
+        sessionId: message.sessionId,
+        state: previousState,
+        staleHash: message.hash,
+        freshHash
+      })
+      this.loggerProxy.tell(
+        `warning`,
+        `An event has been discarded as it was generated from stale state.`
+      )
+    }
+  }
 }
