@@ -1,5 +1,5 @@
 import IJsonObject from "../../IJsonObject"
-import IMultiUserApplication from "../IMultiUserApplication"
+import IApplication from "../IApplication"
 import IPrompt from "./IPrompt"
 
 /**
@@ -10,7 +10,7 @@ import IPrompt from "./IPrompt"
 export default interface IPromptApplication<
   TState extends IJsonObject,
   TEvent extends IJsonObject
-  > extends IMultiUserApplication<TState, TEvent> {
+  > extends IApplication<TState, TEvent> {
   /**
    * Generates a prompt to show from a state and viewing session ID.
    * @param state The state from which to generate a prompt.

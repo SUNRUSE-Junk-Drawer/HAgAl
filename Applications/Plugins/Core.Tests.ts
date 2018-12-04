@@ -66,6 +66,7 @@ let errorHandler: jasmine.Spy
 let application: IDerivedApplication
 let applicationInitial: jasmine.Spy
 let applicationApply: jasmine.Spy
+let applicationHash: jasmine.Spy
 let loggerVerbose: jasmine.Spy
 let loggerInformation: jasmine.Spy
 let loggerWarning: jasmine.Spy
@@ -155,10 +156,12 @@ beforeEach(() => {
     stateContent: `Test Initial State Content`
   })
   applicationApply = jasmine.createSpy()
+  applicationHash = jasmine.createSpy()
   application = {
     title: `Test Application Title`,
     initial: applicationInitial,
     apply: applicationApply,
+    hash: applicationHash,
     differentiatedBy: `this`
   }
 
@@ -251,6 +254,10 @@ it(
 it(
   `does not apply any events`,
   () => expect(applicationApply).not.toHaveBeenCalled()
+)
+it(
+  `does not hash any states`,
+  () => expect(applicationHash).not.toHaveBeenCalled()
 )
 it(
   `does not directly invoke the logger's "verbose" message handler`,
@@ -389,6 +396,10 @@ describe(`install`, () => {
     () => expect(applicationApply).not.toHaveBeenCalled()
   )
   it(
+    `does not hash any states`,
+    () => expect(applicationHash).not.toHaveBeenCalled()
+  )
+  it(
     `does not tell itself`,
     () => expect(receivedByTell).not.toHaveBeenCalled()
   )
@@ -497,6 +508,10 @@ describe(`replaceState`, () => {
     () => expect(applicationApply).not.toHaveBeenCalled()
   )
   it(
+    `does not hash any states`,
+    () => expect(applicationHash).not.toHaveBeenCalled()
+  )
+  it(
     `does not tell itself`,
     () => expect(receivedByTell).not.toHaveBeenCalled()
   )
@@ -580,6 +595,10 @@ describe(`replaceState`, () => {
     it(
       `does not apply any events`,
       () => expect(applicationApply).not.toHaveBeenCalled()
+    )
+    it(
+      `does not hash any states`,
+      () => expect(applicationHash).not.toHaveBeenCalled()
     )
     it(
       `does not tell itself`,

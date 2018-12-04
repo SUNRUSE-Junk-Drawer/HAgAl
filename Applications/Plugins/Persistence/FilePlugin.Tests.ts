@@ -68,6 +68,7 @@ describe(`install`, () => {
   let coreTell: jasmine.Spy
   let applicationInitial: jasmine.Spy
   let applicationApply: jasmine.Spy
+  let applicationHash: jasmine.Spy
   let stateGet: jasmine.Spy
   let loggerTell: jasmine.Spy
   let installed: {
@@ -81,6 +82,7 @@ describe(`install`, () => {
     coreTell = jasmine.createSpy()
     applicationInitial = jasmine.createSpy()
     applicationApply = jasmine.createSpy()
+    applicationHash = jasmine.createSpy()
     stateGet = jasmine.createSpy()
     loggerTell = jasmine.createSpy()
     installed = {
@@ -90,7 +92,8 @@ describe(`install`, () => {
       application: {
         title: `Test Application Title`,
         initial: applicationInitial,
-        apply: applicationApply
+        apply: applicationApply,
+        hash: applicationHash
       },
       state: {
         get: stateGet
@@ -179,6 +182,10 @@ describe(`install`, () => {
     it(
       `does not call application.apply`,
       () => expect(applicationApply).not.toHaveBeenCalled()
+    )
+    it(
+      `does not call application.hash`,
+      () => expect(applicationHash).not.toHaveBeenCalled()
     )
     it(
       `does not call state.get`,
@@ -275,6 +282,10 @@ describe(`install`, () => {
         () => expect(applicationApply).not.toHaveBeenCalled()
       )
       it(
+        `does not call application.hash`,
+        () => expect(applicationHash).not.toHaveBeenCalled()
+      )
+      it(
         `does not call state.get`,
         () => expect(stateGet).not.toHaveBeenCalled()
       )
@@ -364,6 +375,10 @@ describe(`install`, () => {
       it(
         `does not call application.apply`,
         () => expect(applicationApply).not.toHaveBeenCalled()
+      )
+      it(
+        `does not call application.hash`,
+        () => expect(applicationHash).not.toHaveBeenCalled()
       )
       it(
         `does not call state.get`,
@@ -479,6 +494,10 @@ describe(`install`, () => {
             () => expect(applicationApply).not.toHaveBeenCalled()
           )
           it(
+            `does not call application.hash`,
+            () => expect(applicationHash).not.toHaveBeenCalled()
+          )
+          it(
             `does not call state.get`,
             () => expect(stateGet).not.toHaveBeenCalled()
           )
@@ -580,6 +599,10 @@ describe(`install`, () => {
             () => expect(applicationApply).not.toHaveBeenCalled()
           )
           it(
+            `does not call application.hash`,
+            () => expect(applicationHash).not.toHaveBeenCalled()
+          )
+          it(
             `does not log`,
             () => expect(loggerTell).not.toHaveBeenCalled()
           )
@@ -668,6 +691,10 @@ describe(`install`, () => {
             () => expect(applicationApply).not.toHaveBeenCalled()
           )
           it(
+            `does not call application.hash`,
+            () => expect(applicationHash).not.toHaveBeenCalled()
+          )
+          it(
             `does not call state.get`,
             () => expect(stateGet).not.toHaveBeenCalled()
           )
@@ -753,6 +780,10 @@ describe(`install`, () => {
     it(
       `does not call application.apply`,
       () => expect(applicationApply).not.toHaveBeenCalled()
+    )
+    it(
+      `does not call application.hash`,
+      () => expect(applicationHash).not.toHaveBeenCalled()
     )
     it(
       `does not call state.get`,
