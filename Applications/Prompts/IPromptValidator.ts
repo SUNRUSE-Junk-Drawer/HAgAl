@@ -5,7 +5,7 @@ import IJsonObject from "../../IJsonObject"
  * @template TState The JSON-serializable type of application state.
  * @template TEvent The JSON-serializable type of changes to application state.
  */
-export default interface IControlValidator<
+export default interface IPromptValidator<
   TState extends IJsonObject,
   TEvent extends IJsonObject
   > {
