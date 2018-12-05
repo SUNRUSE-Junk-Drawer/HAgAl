@@ -1,9 +1,11 @@
 import IJsonObject from "../../IJsonObject"
 
 /**
- * Validates user input when compared to the prompt they have been shown.
+ * Validates user input when compared to the control they have been shown.
+ * @template TState The JSON-serializable type of application state.
+ * @template TEvent The JSON-serializable type of changes to application state.
  */
-export default interface IPromptValidator<
+export default interface IControlValidator<
   TState extends IJsonObject,
   TEvent extends IJsonObject
   > {
