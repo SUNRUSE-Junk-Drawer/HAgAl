@@ -1,4 +1,5 @@
 import IJsonObject from "../../IJsonObject"
+import IPrompt from "./IPrompt"
 
 /**
  * Validates user input when compared to the control they have been shown.
@@ -10,11 +11,11 @@ export default interface IPromptValidator<
   /**
    * Validates that a back button could have been pressed.  Assumes that the
    * hash matches.
-   * @param sessionId The session ID of the user which pressed the back button.
+   * @param prompt The prompt on which the back button is to have been pressed.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
    */
-  back(sessionId: string):
+  back(prompt: IPrompt<TEvent>):
     | {
       /**
        * Indicates that there was not a back button to press.
@@ -37,11 +38,11 @@ export default interface IPromptValidator<
    * Validates that a text field could have been entered.  Assumes that the
    * hash matches.
    * @param text The text which has been entered.
-   * @param sessionId The session ID of the user which entered text.
+   * @param prompt The prompt on which text is to have been entered.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
    */
-  text(text: string, sessionId: string):
+  text(text: string, prompt: IPrompt<TEvent>):
     | {
       /**
        * Indicates that there was not a text control to answer.
@@ -78,11 +79,11 @@ export default interface IPromptValidator<
    * Validates that a password field could have been entered.  Assumes that the
    * hash matches.
    * @param password The password which has been entered.
-   * @param sessionId The session ID of the user which entered a password.
+   * @param prompt The prompt on which a password is to have been entered.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
    */
-  password(password: string, sessionId: string):
+  password(password: string, prompt: IPrompt<TEvent>):
     | {
       /**
        * Indicates that there was not a password control to answer.
@@ -119,11 +120,11 @@ export default interface IPromptValidator<
    * Validates that a number field could have been entered.  Assumes that the
    * hash matches.
    * @param number The number which has been entered.
-   * @param sessionId The session ID of the user which entered a number.
+   * @param prompt The prompt on which a number is to have been entered.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
    */
-  number(number: number, sessionId: string):
+  number(number: number, prompt: IPrompt<TEvent>):
     | {
       /**
        * Indicates that there was not a number control to answer.
@@ -166,11 +167,12 @@ export default interface IPromptValidator<
    * Validates that a multiple choice option could have been selected.  Assumes
    * that the hash matches.
    * @param label The label of the option which has been selected.
-   * @param sessionId The session ID of the user which selected an option.
+   * @param prompt The prompt on which a multiple choice selection is to have
+   * been made.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
    */
-  multipleChoiceByLabel(label: string, sessionId: string):
+  multipleChoiceByLabel(label: string, prompt: IPrompt<TEvent>):
     | {
       /**
        * Indicates that there was not a multiple choice control to answer.
@@ -199,11 +201,12 @@ export default interface IPromptValidator<
    * Validates that a multiple choice option could have been selected.  Assumes
    * that the hash matches.
    * @param label The index of the option which has been selected.
-   * @param sessionId The session ID of the user which selected an option.
+   * @param prompt The prompt on which a multiple choice selection is to have
+   * been made.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
    */
-  multipleChoiceByIndex(index: number, sessionId: string):
+  multipleChoiceByIndex(index: number, prompt: IPrompt<TEvent>):
     | {
       /**
        * Indicates that there was not a multiple choice control to answer.
