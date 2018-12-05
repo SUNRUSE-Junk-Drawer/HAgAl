@@ -10,7 +10,8 @@ export default interface IControlValidator<
   TEvent extends IJsonObject
   > {
   /**
-   * Validates that a back button could have been pressed.
+   * Validates that a back button could have been pressed.  Assumes that the
+   * hash matches.
    * @param sessionId The session ID of the user which pressed the back button.
    * @returns The event which should be applied, or a reason why one could not
    * be produced.
@@ -35,7 +36,8 @@ export default interface IControlValidator<
     }
 
   /**
-   * Validates that a text field could have been entered.
+   * Validates that a text field could have been entered.  Assumes that the
+   * hash matches.
    * @param text The text which has been entered.
    * @param sessionId The session ID of the user which entered text.
    * @returns The event which should be applied, or a reason why one could not
@@ -75,7 +77,8 @@ export default interface IControlValidator<
     }
 
   /**
-   * Validates that a password field could have been entered.
+   * Validates that a password field could have been entered.  Assumes that the
+   * hash matches.
    * @param password The password which has been entered.
    * @param sessionId The session ID of the user which entered a password.
    * @returns The event which should be applied, or a reason why one could not
@@ -115,7 +118,8 @@ export default interface IControlValidator<
     }
 
   /**
-   * Validates that a number field could have been entered.
+   * Validates that a number field could have been entered.  Assumes that the
+   * hash matches.
    * @param number The number which has been entered.
    * @param sessionId The session ID of the user which entered a number.
    * @returns The event which should be applied, or a reason why one could not
@@ -161,7 +165,8 @@ export default interface IControlValidator<
     }
 
   /**
-   * Validates that a multiple choice option could have been selected.
+   * Validates that a multiple choice option could have been selected.  Assumes
+   * that the hash matches.
    * @param label The label of the option which has been selected.
    * @param sessionId The session ID of the user which selected an option.
    * @returns The event which should be applied, or a reason why one could not
@@ -193,7 +198,8 @@ export default interface IControlValidator<
     }
 
   /**
-   * Validates that a multiple choice option could have been selected.
+   * Validates that a multiple choice option could have been selected.  Assumes
+   * that the hash matches.
    * @param label The index of the option which has been selected.
    * @param sessionId The session ID of the user which selected an option.
    * @returns The event which should be applied, or a reason why one could not
